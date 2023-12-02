@@ -10,8 +10,8 @@ export class AnimeService {
     return this.db.anime.findMany();
   }
 
-  async CreateAnime(body: AnimeDto) {
-    const anime = await this.db.anime.create({
+  CreateAnime(body: AnimeDto) {
+    return this.db.anime.create({
       data: {
         name: body.name,
         img: body.img,
@@ -21,17 +21,14 @@ export class AnimeService {
         author: body.author,
         published: body.published,
         status: body.status,
+        chapters: {
+          create: body.chapters.map((chapter) => ({
+            chapter: chapter.chapter,
+            name: chapter.name,
+            img: chapter.img,
+          })),
+        },
       },
     });
-
-    const chapters = await this.db.chapter.createMany({
-      data: body.chapters.map((chapter) => ({
-        animeName: chapter.animeName,
-        chapter: chapter.chapter,
-        name: chapter.name,
-        img: chapter.img,
-      })),
-    });
-    return { anime, chapters };
   }
 }
