@@ -9,6 +9,25 @@ export class AnimeService {
   getAllAnime() {
     return this.db.anime.findMany();
   }
+  getAnimeByName(name: string) {
+    return this.db.anime.findUnique({
+      where: {
+        name: name,
+      },
+      include: { chapters: true },
+    });
+  }
+
+  getAnimeByGenres(genres: string[], name: string, status: string) {
+    return this.db.anime.findMany({
+      where: {
+        name: { contains: name, mode: 'insensitive' },
+        genres: { hasEvery: genres },
+        status: { contains: status },
+        
+      },
+    });
+  }
 
   CreateAnime(body: AnimeDto) {
     return this.db.anime.create({

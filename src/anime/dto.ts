@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional } from 'class-validator';
+import { clearScreenDown } from 'readline';
 
 export class Chapter {
   @ApiProperty()
@@ -33,4 +34,15 @@ export class AnimeDto {
   @ApiProperty({ type: [Chapter] })
   @IsOptional()
   chapters: Chapter[];
+}
+
+export class AnimeNameQueryDto {
+  @ApiProperty({ required: false })
+  // @IsOptional()
+  name?: string;
+}
+export class AnimeGenresQueryDto {
+  @ApiProperty({ required: false })
+  // @IsOptional()
+  genres?: string[];
 }
