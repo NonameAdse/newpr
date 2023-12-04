@@ -27,3 +27,10 @@ model Chapter {
   animeName String
   anime     Anime    @relation(fields: [animeName], references: [name])
 }
+
+model User {
+  id    String @unique
+  name  String
+  email String @unique
+  image String
+}

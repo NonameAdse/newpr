@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional } from 'class-validator';
-import { clearScreenDown } from 'readline';
 
 export class Chapter {
   @ApiProperty()

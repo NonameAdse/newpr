@@ -1,9 +1,10 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { AnimeDto } from './dto';
-import { ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { AnimeService } from './anime.service';
 
 @Controller('anime')
+@ApiTags('anime')
 export class AnimeController {
   constructor(private animeService: AnimeService) {}
 
