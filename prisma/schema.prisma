@@ -29,8 +29,9 @@ model Chapter {
 }
 
 model User {
-  id    String @unique
-  name  String
-  email String @unique
-  image String
+  id       String   @unique
+  name     String
+  email    String   @unique
+  image    String
+  favorite String[]
 }

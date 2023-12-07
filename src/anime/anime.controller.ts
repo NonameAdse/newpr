@@ -2,6 +2,7 @@ import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
 import { AnimeDto } from './dto';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { AnimeService } from './anime.service';
+import { isEmail } from 'class-validator';
 
 @Controller('anime')
 @ApiTags('anime')
@@ -39,5 +40,11 @@ export class AnimeController {
   @ApiCreatedResponse()
   CreateAnime(@Body() body: AnimeDto) {
     return this.animeService.CreateAnime(body);
+  }
+
+  @Get('userFavorite')
+  @ApiOkResponse({ type: [AnimeDto] })
+  getUserFavorite(@Query('email') email: string) {
+    return this.animeService.getUserFavorite(email!);
   }
 }

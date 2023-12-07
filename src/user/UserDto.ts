@@ -10,3 +10,10 @@ export class UserDto {
   @ApiProperty()
   image: string;
 }
+
+export class ToggleAnimeFavoriteDto {
+  @ApiProperty()
+  email: string;
+  @ApiProperty()
+  name: string;
+}

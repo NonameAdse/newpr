@@ -1,10 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { DbService } from 'src/db/db.service';
 import { AnimeDto } from './dto';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class AnimeService {
-  constructor(private db: DbService) {}
+  constructor(
+    private db: DbService,
+    private user: UserService,
+  ) {}
 
   getAllAnime() {
     return this.db.anime.findMany();
@@ -24,7 +28,6 @@ export class AnimeService {
         name: { contains: name, mode: 'insensitive' },
         genres: { hasEvery: genres },
         status: { contains: status },
-        
       },
     });
   }
@@ -48,6 +51,16 @@ export class AnimeService {
           })),
         },
       },
+    });
+  }
+  async getUserFavorite(email: string) {
+    const user = await this.user.getUserFavorite(email);
+
+    if (!user?.favorite || user?.favorite.length === 0) {
+      return [];
+    }
+    return this.db.anime.findMany({
+      where: { name: { in: user?.favorite } },
     });
   }
 }

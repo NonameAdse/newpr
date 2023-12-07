@@ -34,14 +34,3 @@ export class AnimeDto {
   @IsOptional()
   chapters: Chapter[];
 }
-
-export class AnimeNameQueryDto {
-  @ApiProperty({ required: false })
-  // @IsOptional()
-  name?: string;
-}
-export class AnimeGenresQueryDto {
-  @ApiProperty({ required: false })
-  // @IsOptional()
-  genres?: string[];
-}
