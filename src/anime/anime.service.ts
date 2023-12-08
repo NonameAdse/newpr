@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DbService } from 'src/db/db.service';
-import { AnimeDto } from './dto';
+import { AnimeDto, OrderDTo } from './dto';
 import { UserService } from 'src/user/user.service';
 
 @Injectable()
@@ -22,12 +22,21 @@ export class AnimeService {
     });
   }
 
-  getAnimeByGenres(genres: string[], name: string, status: string) {
+  getAnimeByGenres(
+    genres: string[],
+    name: string,
+    status: string,
+    orderField: 'name',
+    orderDiraction: 'asc' | 'desc',
+  ) {
     return this.db.anime.findMany({
       where: {
         name: { contains: name, mode: 'insensitive' },
         genres: { hasEvery: genres },
         status: { contains: status },
+      },
+      orderBy: {
+        name: orderDiraction,
       },
     });
   }
