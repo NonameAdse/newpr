@@ -34,8 +34,3 @@ export class AnimeDto {
   @IsOptional()
   chapters: Chapter[];
 }
-
-export class OrderDTo {
-  orderField?: string;
-  orderDiraction?: string;
-}

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { DbService } from 'src/db/db.service';
-import { AnimeDto, OrderDTo } from './dto';
+import { AnimeDto } from './dto';
 import { UserService } from 'src/user/user.service';
 
 @Injectable()
@@ -26,18 +26,18 @@ export class AnimeService {
     genres: string[],
     name: string,
     status: string,
-    orderField: 'name',
-    orderDiraction: 'asc' | 'desc',
+    sortOptions: { field: string; order: 'asc' | 'desc' }[],
   ) {
+    const orderBy = Object.fromEntries(
+      sortOptions.map(({ field, order }) => [field, order]),
+    );
     return this.db.anime.findMany({
       where: {
         name: { contains: name, mode: 'insensitive' },
         genres: { hasEvery: genres },
         status: { contains: status },
       },
-      orderBy: {
-        name: orderDiraction,
-      },
+      orderBy: orderBy,
     });
   }
 

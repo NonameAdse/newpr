@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
-import { AnimeDto, OrderDTo } from './dto';
+import { AnimeDto } from './dto';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { AnimeService } from './anime.service';
 import { isEmail } from 'class-validator';
@@ -24,19 +24,21 @@ export class AnimeController {
   @Get('get-by-filters')
   @ApiOkResponse({ type: [AnimeDto] })
   getAnimeByGenres(
-    @Query('genres') genres: string,
+    @Query('genres') genres: string[],
     @Query('name') name: string,
     @Query('status') status: string,
-    @Query('orderField') orderField: "name",
-    @Query('orderDiraction') orderDiraction: 'asc' | 'desc',
+    @Query('orderField') orderField: string,
+    @Query('orderDirection') orderDirection: 'asc' | 'desc',
   ) {
-    const genresArray = genres ? genres.split(',') : [];
+    const sortOptions =
+      orderField && orderDirection
+        ? [{ field: orderField, order: orderDirection }]
+        : [];
     return this.animeService.getAnimeByGenres(
-      genresArray,
+      genres,
       name || '',
       status || '',
-      orderField || '',
-      orderDiraction || '',
+      sortOptions,
     );
   }
 
