@@ -34,3 +34,11 @@ export class AnimeDto {
   @IsOptional()
   chapters: Chapter[];
 }
+
+export class AnimeBodyDto {
+  genres?: string[];
+  name?: string;
+  status?: string;
+  orderField?: string;
+  orderDirection?: 'asc' | 'desc';
+}

@@ -14,7 +14,7 @@ export class AnimeService {
     return this.db.anime.findMany();
   }
   getAnimeByName(name: string) {
-    return this.db.anime.findUnique({
+    return this.db.anime.findFirst({
       where: {
         name: name,
       },
@@ -22,6 +22,15 @@ export class AnimeService {
     });
   }
 
+  getAnimeChapter(name: string, chapter: number) {
+    console.log(name, chapter);
+    return this.db.chapter.findFirst({
+      where: {
+        animeName: name,
+        chapter: chapter,
+      },
+    });
+  }
   getAnimeByGenres(
     genres: string[],
     name: string,
@@ -62,14 +71,19 @@ export class AnimeService {
       },
     });
   }
-  async getUserFavorite(email: string) {
+  async getUserFavorite(email: string, name: string) {
     const user = await this.user.getUserFavorite(email);
 
     if (!user?.favorite || user?.favorite.length === 0) {
       return [];
     }
-    return this.db.anime.findMany({
+    const favoriteList = await this.db.anime.findMany({
       where: { name: { in: user?.favorite } },
+      select: { name: true },
     });
+
+    const favoriteNames = favoriteList.map((anime) => anime.name);
+
+    return favoriteNames.includes(name);
   }
 }
