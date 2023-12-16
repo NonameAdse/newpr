@@ -1,10 +1,10 @@
-import { HttpModule } from '@nestjs/axios';
-import { Module } from '@nestjs/common';
+// import { HttpModule } from '@nestjs/axios';
+// import { Module } from '@nestjs/common';
 
-import { WakeUpService } from './wakeup.service';
+// import { WakeUpService } from './wakeup.service';
 
-@Module({
-  imports: [HttpModule],
-  providers: [WakeUpService],
-})
-export class WakeUpModule {}
+// @Module({
+//   imports: [HttpModule],
+//   providers: [WakeUpService],
+// })
+// export class WakeUpModule {}
