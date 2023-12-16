@@ -8,10 +8,10 @@ import { AnimeModule } from './anime/anime.module';
 import { UserController } from './user/user.controller';
 import { UserModule } from './user/user.module';
 import { UserService } from './user/user.service';
-// import { WakeUpModule } from './wakeup/wakeup.module';
+import { WakeUpModule } from './wakeup/wakeup.module';
 
 @Module({
-  imports: [DbModule, AnimeModule, UserModule],
+  imports: [DbModule, AnimeModule, UserModule, WakeUpModule],
   controllers: [AppController, AnimeController, UserController],
   providers: [AppService, AnimeService, UserService],
 })
