@@ -1,7 +1,7 @@
-import { Body, Controller, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { UserService } from './user.service';
-import { ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
-import { ToggleAnimeFavoriteDto, UserDto } from './UserDto';
+import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { UserDto } from './UserDto';
 
 @Controller('user')
 @ApiTags('user')

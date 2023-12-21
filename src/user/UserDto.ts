@@ -17,3 +17,4 @@ export class ToggleAnimeFavoriteDto {
   @ApiProperty()
   name: string;
 }
+

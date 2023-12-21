@@ -35,18 +35,26 @@ export class AnimeService {
     genres: string[],
     name: string,
     status: string,
+    country: string,
     sortOptions: { field: string; order: 'asc' | 'desc' }[],
+    page: number,
+    perPage: number,
   ) {
+    console.log(country);
     const orderBy = Object.fromEntries(
       sortOptions.map(({ field, order }) => [field, order]),
     );
+    const skip = (page - 1) * perPage;
     return this.db.anime.findMany({
       where: {
         name: { contains: name, mode: 'insensitive' },
         genres: { hasEvery: genres },
         status: { contains: status },
+        country: { contains: country },
       },
       orderBy: orderBy,
+      skip: skip,
+      take: perPage,
     });
   }
 
@@ -58,12 +66,14 @@ export class AnimeService {
         imgHeader: body.imgHeader,
         describe: body.describe,
         genres: body.genres,
+        country: body.country,
         author: body.author,
         published: body.published,
         status: body.status,
         chapters: {
           create: body.chapters.map((chapter) => ({
             chapter: chapter.chapter,
+            createdAt: new Date(),
             name: chapter.name,
             img: chapter.img,
           })),
@@ -75,7 +85,7 @@ export class AnimeService {
     const user = await this.user.getUserFavorite(email);
 
     if (!user?.favorite || user?.favorite.length === 0) {
-      return [];
+      return null;
     }
     const favoriteList = await this.db.anime.findMany({
       where: { name: { in: user?.favorite } },
@@ -85,5 +95,49 @@ export class AnimeService {
     const favoriteNames = favoriteList.map((anime) => anime.name);
 
     return favoriteNames.includes(name);
+  }
+
+  async getUserFavoriteManga(email: string) {
+    const user = await this.user.getUserFavorite(email);
+
+    if (!user?.favorite || user?.favorite.length === 0) {
+      return [];
+    }
+    return this.db.anime.findMany({
+      where: { name: { in: user?.favorite } },
+    });
+  }
+
+  async addRating(name: string, rating: number): Promise<void> {
+    const anime = await this.db.anime.findFirst({
+      where: {
+        name: name,
+      },
+    });
+    if (!anime?.averageRating) {
+      await this.db.anime.update({
+        where: {
+          name: name,
+        },
+        data: {
+          averageRating: rating,
+          ratingCount: 1,
+        },
+      });
+    } else {
+      const totalRating = anime.averageRating * anime.ratingCount! + rating;
+      const newRatingCount = anime.ratingCount! + 1;
+      const newAverageRating = totalRating / newRatingCount;
+
+      await this.db.anime.update({
+        where: {
+          name: name,
+        },
+        data: {
+          averageRating: newAverageRating,
+          ratingCount: newRatingCount,
+        },
+      });
+    }
   }
 }

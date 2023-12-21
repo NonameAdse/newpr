@@ -7,6 +7,8 @@ export class Chapter {
   @ApiProperty()
   img: string[];
   @ApiProperty()
+  createdAt: number;
+  @ApiProperty()
   name: string;
   @ApiProperty()
   animeName: string;
@@ -26,9 +28,17 @@ export class AnimeDto {
   @ApiProperty()
   author: string;
   @ApiProperty()
-  published: string;
+  country: string;
+  @ApiProperty()
+  published: number;
+  @ApiProperty()
+  averageRating: number;
+  @ApiProperty()
+  ratingCount: number;
   @ApiProperty()
   status: string;
+  @ApiProperty()
+  id: number;
 
   @ApiProperty({ type: [Chapter] })
   @IsOptional()

@@ -2,16 +2,13 @@ import {
   Body,
   Controller,
   Get,
-  Param,
   ParseIntPipe,
   Post,
   Query,
 } from '@nestjs/common';
-import { AnimeBodyDto, AnimeDto } from './dto';
+import { AnimeDto } from './dto';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { AnimeService } from './anime.service';
-import { isEmail } from 'class-validator';
-import { channel } from 'diagnostics_channel';
 
 @Controller('anime')
 @ApiTags('anime')
@@ -45,8 +42,11 @@ export class AnimeController {
     @Query('genres') genres: string[] = [],
     @Query('name') name: string = '',
     @Query('status') status: string = '',
+    @Query('country') country: string = '',
     @Query('orderField') orderField: string = '',
     @Query('orderDirection') orderDirection: 'asc' | 'desc' = 'asc',
+    @Query('page') page: number,
+    @Query('perPage', ParseIntPipe) perPage: number,
   ) {
     const sortOptions =
       orderField && orderDirection
@@ -56,7 +56,10 @@ export class AnimeController {
       genres,
       name,
       status,
+      country,
       sortOptions,
+      page,
+      perPage,
     );
   }
   // @Post('get-by-filters')
@@ -75,5 +78,19 @@ export class AnimeController {
   @ApiOkResponse()
   getUserFavorite(@Query('email') email: string, @Query('name') name: string) {
     return this.animeService.getUserFavorite(email!, name);
+  }
+  @Get('user-favorite')
+  @ApiOkResponse({ type: [AnimeDto] })
+  getUserManga(@Query('email') email: string) {
+    return this.animeService.getUserFavoriteManga(email);
+  }
+
+  @Get('rating')
+  @ApiOkResponse()
+  getMangaRating(
+    @Query('name') name: string,
+    @Query('rating', ParseIntPipe) rating: number,
+  ) {
+    return this.animeService.addRating(name, rating);
   }
 }

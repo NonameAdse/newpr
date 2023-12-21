@@ -8,16 +8,19 @@ datasource db {
 }
 
 model Anime {
-  name      String    @unique
-  img       String
-  imgHeader String
-  describe  String
-  genres    String[]
-  author    String
-  published String
-  status    String
-  id        Int       @id @default(autoincrement())
-  chapters  Chapter[]
+  name          String    @unique
+  img           String
+  imgHeader     String
+  describe      String
+  genres        String[]
+  author        String?
+  country       String
+  published     Int
+  averageRating Float?    @default(0)
+  ratingCount   Int?      @default(0)
+  status        String
+  id            Int       @id @default(autoincrement())
+  chapters      Chapter[]
 }
 
 model Chapter {
@@ -25,13 +28,15 @@ model Chapter {
   img       String[]
   name      String   @unique
   animeName String
+  createdAt DateTime @default(now())
   anime     Anime    @relation(fields: [animeName], references: [name])
 }
 
 model User {
-  id       String   @unique
-  name     String
-  email    String   @unique
-  image    String
-  favorite String[]
+  id        String   @unique
+  name      String
+  email     String   @unique
+  image     String
+  favorite  String[]
+  createdAt DateTime @default(now())
 }

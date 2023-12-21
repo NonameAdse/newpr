@@ -38,6 +38,7 @@ export class UserService {
     }
 
     const isAnimeInFavorites = user.favorite.includes(name);
+    console.log(isAnimeInFavorites);
 
     if (!isAnimeInFavorites) {
       return this.db.user.update({
