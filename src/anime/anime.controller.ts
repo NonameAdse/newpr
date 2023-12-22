@@ -31,7 +31,7 @@ export class AnimeController {
   @ApiOkResponse({ type: AnimeDto })
   getAnimeChapter(
     @Query('name') name: string = '',
-    @Query('chapter', ParseIntPipe) chapter: number,
+    @Query('chapter', ParseIntPipe) chapter: string,
   ) {
     return this.animeService.getAnimeChapter(name, chapter);
   }

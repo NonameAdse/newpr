@@ -11,7 +11,7 @@ export class AnimeService {
   ) {}
 
   getAllAnime() {
-    return this.db.anime.findMany();
+    return this.db.anime.findMany({ include: { chapters: true } });
   }
   getAnimeByName(name: string) {
     return this.db.anime.findFirst({
@@ -22,12 +22,13 @@ export class AnimeService {
     });
   }
 
-  getAnimeChapter(name: string, chapter: number) {
-    console.log(name, chapter);
+  getAnimeChapter(name: string, chapter: string) {
+    const chap = Number(chapter);
+    console.log(chap);
     return this.db.chapter.findFirst({
       where: {
         animeName: name,
-        chapter: chapter,
+        chapter: chap,
       },
     });
   }
