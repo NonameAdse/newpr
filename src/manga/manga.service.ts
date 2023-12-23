@@ -18,7 +18,7 @@ export class MangaService {
       where: {
         name: name,
       },
-      include: { chapters: true },
+      include: { chapters: true as const },
     });
   }
   getMangaChapter(name: string, chapter: string) {
