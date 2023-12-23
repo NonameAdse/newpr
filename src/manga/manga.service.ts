@@ -82,8 +82,8 @@ export class MangaService {
     });
   }
 
-  async getMankaPopular() {
-    const popular = await this.db.anime.findMany({
+  getMankaPopular() {
+    return this.db.anime.findMany({
       take: 10,
       orderBy: { popularity: 'asc' },
     });
