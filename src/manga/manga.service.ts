@@ -18,7 +18,7 @@ export class MangaService {
       where: {
         name: name,
       },
-      include: { chapters: true as const },
+      include: { chapters: true },
     });
   }
   getMangaChapter(name: string, chapter: string) {
@@ -85,7 +85,7 @@ export class MangaService {
   getMankaPopular() {
     return this.db.anime.findMany({
       take: 10,
-      orderBy: { popularity: 'desc' },
+      orderBy: { popularity: 'desc' as const },
     });
   }
 
