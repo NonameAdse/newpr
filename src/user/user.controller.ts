@@ -16,6 +16,6 @@ export class UserController {
 
   @Post('addFavorite')
   addFavorite(@Query('email') email: string, @Query('name') name: string) {
-    return this.userS.toggleUserFavoriteAnime(email, name);
+    return this.userS.toggleUserFavoriteManga(email, name);
   }
 }

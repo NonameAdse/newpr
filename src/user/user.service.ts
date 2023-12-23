@@ -31,16 +31,22 @@ export class UserService {
     }
   }
 
-  async toggleUserFavoriteAnime(email: string, name: string) {
+  async toggleUserFavoriteManga(email: string, name: string) {
     const user = await this.getUserFavorite(email);
     if (!user) {
       throw new NotFoundException('User not found');
     }
 
-    const isAnimeInFavorites = user.favorite.includes(name);
+    const isAnimeInFavorites = await user.favorite.includes(name);
     console.log(isAnimeInFavorites);
 
     if (!isAnimeInFavorites) {
+      const addpopular = await this.db.anime.update({
+        where: { name: name },
+        data: {
+          popularity: +1,
+        },
+      });
       return this.db.user.update({
         where: { email: email },
         data: {

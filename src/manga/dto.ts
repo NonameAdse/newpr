@@ -14,7 +14,7 @@ export class Chapter {
   animeName: string;
 }
 
-export class AnimeDto {
+export class MangaDto {
   @ApiProperty()
   name: string;
   @ApiProperty()
@@ -45,7 +45,7 @@ export class AnimeDto {
   chapters: Chapter[];
 }
 
-export class AnimeBodyDto {
+export class MangaBodyDto {
   genres?: string[];
   name?: string;
   status?: string;

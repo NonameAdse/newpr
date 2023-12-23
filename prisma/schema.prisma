@@ -19,6 +19,7 @@ model Anime {
   averageRating Float?    @default(0)
   ratingCount   Int?      @default(0)
   status        String
+  popularity    Int?      @default(0)
   id            Int       @id @default(autoincrement())
   chapters      Chapter[]
 }

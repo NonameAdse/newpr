@@ -6,39 +6,45 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { AnimeDto } from './dto';
+import { MangaDto } from './dto';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
-import { AnimeService } from './anime.service';
+import { MangaService } from './manga.service';
 
 @Controller('anime')
 @ApiTags('anime')
-export class AnimeController {
-  constructor(private animeService: AnimeService) {}
+export class MangaController {
+  constructor(private animeService: MangaService) {}
 
   @Get('get-all')
-  @ApiOkResponse({ type: [AnimeDto] })
-  getAllAnime() {
-    return this.animeService.getAllAnime();
+  @ApiOkResponse({ type: [MangaDto] })
+  getAllManga() {
+    return this.animeService.getAllManga();
   }
 
-  @Get('get-one/')
-  @ApiOkResponse({ type: AnimeDto })
-  getAnimeByName(@Query('name') name: string = '') {
-    return this.animeService.getAnimeByName(name);
+  @Get('get-one')
+  @ApiOkResponse({ type: MangaDto })
+  getMangaByName(@Query('name') name: string = '') {
+    return this.animeService.getMangaByName(name);
   }
 
-  @Get('get-chapter/')
-  @ApiOkResponse({ type: AnimeDto })
-  getAnimeChapter(
+  @Get('get-chapter')
+  @ApiOkResponse({ type: MangaDto })
+  getMangaChapter(
     @Query('name') name: string = '',
     @Query('chapter', ParseIntPipe) chapter: string,
   ) {
-    return this.animeService.getAnimeChapter(name, chapter);
+    return this.animeService.getMangaChapter(name, chapter);
+  }
+
+  @Get('get-popular')
+  @ApiOkResponse({ type: MangaDto })
+  getMankaPopular() {
+    return this.animeService.getMankaPopular();
   }
 
   @Get('get-by-filters')
-  @ApiOkResponse({ type: [AnimeDto] })
-  getAnimeByGenres(
+  @ApiOkResponse({ type: [MangaDto] })
+  getMangaByGenres(
     @Query('genres') genres: string[] = [],
     @Query('name') name: string = '',
     @Query('status') status: string = '',
@@ -52,7 +58,7 @@ export class AnimeController {
       orderField && orderDirection
         ? [{ field: orderField, order: orderDirection }]
         : [];
-    return this.animeService.getAnimeByGenres(
+    return this.animeService.getMangaByGenres(
       genres,
       name,
       status,
@@ -62,16 +68,11 @@ export class AnimeController {
       perPage,
     );
   }
-  // @Post('get-by-filters')
-  // @ApiOkResponse({ type: [AnimeDto] })
-  // getAnimeByGenres(@Body() body: AnimeBodyDto) {
-  //   return this.animeService.getAnimeByGenres(body);
-  // }
 
   @Post('create')
   @ApiCreatedResponse()
-  CreateAnime(@Body() body: AnimeDto) {
-    return this.animeService.CreateAnime(body);
+  CreateManga(@Body() body: MangaDto) {
+    return this.animeService.CreateManga(body);
   }
 
   @Get('userFavorite')
@@ -80,7 +81,7 @@ export class AnimeController {
     return this.animeService.getUserFavorite(email!, name);
   }
   @Get('user-favorite')
-  @ApiOkResponse({ type: [AnimeDto] })
+  @ApiOkResponse({ type: [MangaDto] })
   getUserManga(@Query('email') email: string) {
     return this.animeService.getUserFavoriteManga(email);
   }

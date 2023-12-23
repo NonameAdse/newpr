@@ -1,19 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { DbService } from 'src/db/db.service';
-import { AnimeDto } from './dto';
+import { MangaDto } from './dto';
 import { UserService } from 'src/user/user.service';
 
 @Injectable()
-export class AnimeService {
+export class MangaService {
   constructor(
     private db: DbService,
     private user: UserService,
   ) {}
 
-  getAllAnime() {
+  getAllManga() {
     return this.db.anime.findMany({ include: { chapters: true } });
   }
-  getAnimeByName(name: string) {
+  getMangaByName(name: string) {
     return this.db.anime.findFirst({
       where: {
         name: name,
@@ -21,8 +21,7 @@ export class AnimeService {
       include: { chapters: true },
     });
   }
-
-  getAnimeChapter(name: string, chapter: string) {
+  getMangaChapter(name: string, chapter: string) {
     const chap = Number(chapter);
     console.log(chap);
     return this.db.chapter.findFirst({
@@ -32,7 +31,7 @@ export class AnimeService {
       },
     });
   }
-  getAnimeByGenres(
+  getMangaByGenres(
     genres: string[],
     name: string,
     status: string,
@@ -59,7 +58,7 @@ export class AnimeService {
     });
   }
 
-  CreateAnime(body: AnimeDto) {
+  CreateManga(body: MangaDto) {
     return this.db.anime.create({
       data: {
         name: body.name,
@@ -82,6 +81,14 @@ export class AnimeService {
       },
     });
   }
+
+  async getMankaPopular() {
+    const popular = await this.db.anime.findMany({
+      take: 10,
+      orderBy: { popularity: 'asc' },
+    });
+  }
+
   async getUserFavorite(email: string, name: string) {
     const user = await this.user.getUserFavorite(email);
 
