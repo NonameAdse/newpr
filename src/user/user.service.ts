@@ -44,7 +44,7 @@ export class UserService {
       const addpopular = await this.db.anime.update({
         where: { name: name },
         data: {
-          popularity: +1 as number,
+          popularity: +1,
         },
       });
       return this.db.user.update({

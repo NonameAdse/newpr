@@ -85,7 +85,7 @@ export class MangaService {
   getMankaPopular() {
     return this.db.anime.findMany({
       take: 10,
-      orderBy: { popularity: 'desc' as const },
+      orderBy: { popularity: { sort: 'desc' } },
     });
   }
 
