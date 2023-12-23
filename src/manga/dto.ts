@@ -36,6 +36,8 @@ export class MangaDto {
   @ApiProperty()
   ratingCount: number;
   @ApiProperty()
+  popularity: number;
+  @ApiProperty()
   status: string;
   @ApiProperty()
   id: number;
