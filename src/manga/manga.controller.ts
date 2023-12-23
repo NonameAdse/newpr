@@ -10,8 +10,8 @@ import { MangaDto } from './dto';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { MangaService } from './manga.service';
 
-@Controller('anime')
-@ApiTags('anime')
+@Controller('manga')
+@ApiTags('manga')
 export class MangaController {
   constructor(private animeService: MangaService) {}
 
