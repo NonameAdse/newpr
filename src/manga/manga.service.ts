@@ -16,7 +16,7 @@ export class MangaService {
   getMangaByName(name: string) {
     return this.db.anime.findFirst({
       where: {
-        name: name,
+        name: { contains: name, mode: 'insensitive' },
       },
       include: { chapters: true },
     });

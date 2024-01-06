@@ -37,7 +37,7 @@ export class MangaController {
   }
 
   @Get('get-popular')
-  @ApiOkResponse({ type: MangaDto })
+  @ApiOkResponse({ type: [MangaDto] })
   getMankaPopular() {
     return this.animeService.getMankaPopular();
   }

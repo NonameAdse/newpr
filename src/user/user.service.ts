@@ -66,4 +66,10 @@ export class UserService {
       });
     }
   }
+
+  deleteUserAccount(email: string) {
+    return this.db.user.delete({
+      where: { email: email },
+    });
+  }
 }
