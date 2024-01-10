@@ -47,9 +47,7 @@ export async function getAccessToken(): Promise<string> {
 
     return accessToken;
   } catch (error: any) {
-    console.error(
-      error.response?.data || error.message,
-    );
+    console.error(error.response?.data || error.message);
     throw error;
   }
 }
@@ -73,9 +71,30 @@ export async function searchChannels(searchQuery: string): Promise<Channel[]> {
 
     return response.data.data;
   } catch (error: any) {
-    console.error(
-      error.response?.data || error.message,
+    console.error(error.response?.data || error.message);
+    throw error;
+  }
+}
+
+export async function getUserFollowers(userId: string): Promise<Channel[]> {
+  const accessToken = await getAccessToken();
+  try {
+    const { data } = await axios.get(
+      "https://api.twitch.tv/helix/channels/followers",
+      {
+        params: {
+          broadcaster_id: userId,
+        },
+        headers: {
+          "Client-ID": clientId,
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
     );
+
+    return data;
+  } catch (error: any) {
+    console.error(error.response?.data || error.message);
     throw error;
   }
 }
@@ -127,9 +146,7 @@ export async function getCurrentStreamByUserId(
     const stream = response.data.data[0];
     return stream || null;
   } catch (error: any) {
-    console.error(
-      error.response?.data || error.message,
-    );
+    console.error(error.response?.data || error.message);
     throw error;
   }
 }
@@ -146,7 +163,7 @@ export async function getVideosByUserId(
       {
         params: {
           user_id: userId,
-          first: 20,
+          first: 40,
           after: cursor,
         },
         headers: {
