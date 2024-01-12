@@ -3,19 +3,53 @@ import {
   AccessTokenResponse,
   Channel,
   SearchChannelsResponse,
+  TopGame,
+  TwitchCurrent,
   TwitchStream,
   TwitchStreamResponse,
   TwitchUser,
   TwitchUserResponse,
   TwitchVideo,
   TwitchVideoResponse,
-  User,
-  Video,
 } from "./types";
 
-const clientId = process.env.NEXT_PUBLIC_CLIENT_ID;
+// const clientId = process.env.NEXT_PUBLIC_CLIENT_ID;
+// const clientSecret = process.env.NEXT_PUBLIC_CLIENT_SECRET;
+
 let accessToken: string | null = null;
 let tokenExpirationTime: number | null = null;
+
+// async function getAccessToken() {
+//   try {
+//     const cachedToken = await redis.get("token");
+
+//     if (cachedToken) {
+//       console.log("Токен найден в Redis:", cachedToken);
+//       return cachedToken;
+//     }
+
+//     const { data } = await axios.post(
+//       "https://id.twitch.tv/oauth2/token",
+//       null,
+//       {
+//         params: {
+//           client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
+//           client_secret: process.env.NEXT_PUBLIC_CLIENT_SECRET,
+//           grant_type: "client_credentials",
+//         },
+//       },
+//     );
+
+//     // Сохранить новый токен в Redis
+//     await redis.set("token", data.access_token);
+//     console.log("Новый токен успешно установлен в Redis");
+
+//     return data.access_token;
+//   } catch (error) {
+//     console.error("Произошла ошибка:", error);
+//     throw error; // Если нужно, перебросьте ошибку выше
+//   }
+// }
 
 export async function getAccessToken(): Promise<string> {
   if (accessToken && tokenExpirationTime && Date.now() < tokenExpirationTime) {
@@ -29,25 +63,20 @@ export async function getAccessToken(): Promise<string> {
       null,
       {
         params: {
-          client_id: clientId,
+          client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
           client_secret: clientSecret,
           grant_type: "client_credentials",
         },
       },
     );
 
+    console.log("TOKEWOEKOWEKOW");
     accessToken = response.data.access_token;
     tokenExpirationTime = Date.now() + response.data.expires_in! * 1000;
 
-    sessionStorage.setItem("accessToken", accessToken);
-    sessionStorage.setItem(
-      "tokenExpirationTime",
-      tokenExpirationTime.toString(),
-    );
-
     return accessToken;
-  } catch (error: any) {
-    console.error(error.response?.data || error.message);
+  } catch (error) {
+    console.error("Error fetching access token:", error);
     throw error;
   }
 }
@@ -63,7 +92,7 @@ export async function searchChannels(searchQuery: string): Promise<Channel[]> {
           first: 5,
         },
         headers: {
-          "Client-ID": clientId,
+          "Client-ID": process.env.NEXT_PUBLIC_CLIENT_ID,
           Authorization: `Bearer ${accessToken}`,
         },
       },
@@ -76,8 +105,11 @@ export async function searchChannels(searchQuery: string): Promise<Channel[]> {
   }
 }
 
-export async function getUserFollowers(userId: string): Promise<Channel[]> {
-  const accessToken = await getAccessToken();
+export async function getUserFollowers(
+  userId: string,
+  accessToken?: string,
+): Promise<Channel[]> {
+  // const accessToken = await getAccessToken();
   try {
     const { data } = await axios.get(
       "https://api.twitch.tv/helix/channels/followers",
@@ -86,7 +118,7 @@ export async function getUserFollowers(userId: string): Promise<Channel[]> {
           broadcaster_id: userId,
         },
         headers: {
-          "Client-ID": clientId,
+          "Client-ID": process.env.NEXT_PUBLIC_CLIENT_ID,
           Authorization: `Bearer ${accessToken}`,
         },
       },
@@ -99,8 +131,14 @@ export async function getUserFollowers(userId: string): Promise<Channel[]> {
   }
 }
 
-export async function getUserById(userId: string): Promise<TwitchUser | null> {
-  const accessToken = await getAccessToken();
+export async function getUserById(
+  userId: string,
+  accessToken?: string,
+): Promise<TwitchUser | null> {
+  // if (accessToken) {
+  //   const newToken = await getAccessToken();
+  // }
+  // const accessToken = await getAccessToken();
 
   try {
     const response = await axios.get<TwitchUserResponse>(
@@ -110,7 +148,7 @@ export async function getUserById(userId: string): Promise<TwitchUser | null> {
           id: userId,
         },
         headers: {
-          "Client-ID": clientId,
+          "Client-ID": process.env.NEXT_PUBLIC_CLIENT_ID,
           Authorization: `Bearer ${accessToken}`,
         },
       },
@@ -126,8 +164,9 @@ export async function getUserById(userId: string): Promise<TwitchUser | null> {
 
 export async function getCurrentStreamByUserId(
   userId: string,
+  accessToken?: string,
 ): Promise<TwitchStream | null> {
-  const accessToken = await getAccessToken();
+  // const accessToken = await getAccessToken();
 
   try {
     const response = await axios.get<TwitchStreamResponse>(
@@ -137,7 +176,7 @@ export async function getCurrentStreamByUserId(
           user_id: userId,
         },
         headers: {
-          "Client-ID": clientId,
+          "Client-ID": process.env.NEXT_PUBLIC_CLIENT_ID,
           Authorization: `Bearer ${accessToken}`,
         },
       },
@@ -167,7 +206,7 @@ export async function getVideosByUserId(
           after: cursor,
         },
         headers: {
-          "Client-ID": clientId,
+          "Client-ID": process.env.NEXT_PUBLIC_CLIENT_ID,
           Authorization: `Bearer ${accessToken}`,
         },
       },
@@ -179,6 +218,103 @@ export async function getVideosByUserId(
     return { videos, nextCursor };
   } catch (error) {
     console.error(error);
+    throw error;
+  }
+}
+
+export async function getTopGames(): Promise<{ data: TopGame[] }> {
+  const accessToken = await getAccessToken();
+
+  try {
+    const { data } = await axios.get("https://api.twitch.tv/helix/games/top", {
+      params: {
+        first: 100,
+      },
+      headers: {
+        "Client-ID": process.env.NEXT_PUBLIC_CLIENT_ID,
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    // const games = response.data.data;
+    return data;
+  } catch (error: any) {
+    console.error(error.response?.data || error.message);
+    throw error;
+  }
+}
+
+export async function getTopStreamsByGame(
+  gameId: string,
+): Promise<{ data: TwitchCurrent[] | null }> {
+  const accessToken = await getAccessToken();
+
+  try {
+    const { data } = await axios.get("https://api.twitch.tv/helix/streams", {
+      params: {
+        game_id: gameId,
+      },
+      headers: {
+        "Client-ID": process.env.NEXT_PUBLIC_CLIENT_ID,
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    // const games = response.data.data;
+    return data;
+  } catch (error: any) {
+    console.error(error.response?.data || error.message);
+    throw error;
+  }
+}
+
+export async function getEmotes(
+  userId: string,
+  accessToken?: string,
+): Promise<any> {
+  // const accessToken = await getAccessToken();
+
+  try {
+    const { data } = await axios.get(
+      "https://api.twitch.tv/helix/chat/emotes",
+      {
+        params: {
+          broadcaster_id: userId,
+        },
+        headers: {
+          "Client-ID": process.env.NEXT_PUBLIC_CLIENT_ID,
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
+    );
+
+    return data;
+  } catch (error: any) {
+    console.error(error.response?.data || error.message);
+    throw error;
+  }
+}
+
+export async function getUserClips(
+  userId: string,
+  accessToken?: string,
+): Promise<any> {
+  // const accessToken = await getAccessToken();
+
+  try {
+    const { data } = await axios.get("https://api.twitch.tv/helix/clips", {
+      params: {
+        broadcaster_id: userId,
+      },
+      headers: {
+        "Client-ID": process.env.NEXT_PUBLIC_CLIENT_ID,
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    return data.data;
+  } catch (error: any) {
+    console.error(error.response?.data || error.message);
     throw error;
   }
 }

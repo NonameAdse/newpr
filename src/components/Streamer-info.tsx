@@ -1,47 +1,37 @@
 import React from "react";
-import { useQuery } from "@tanstack/react-query";
-// import { HiOutlineStatusOffline } from "react-icons/hi";
-// import { useNavigate, useParams } from "react-router-dom";
-import { TwitchPlayer, TwitchChat } from "react-twitch-embed";
-import s from "@/styles/Streamer.module.scss";
-import {
-  getCurrentStreamByUserId,
-  getUserById,
-  getUserFollowers,
-} from "@/shared/api/axios";
 import { useRouter } from "next/router";
+import { TwitchStream, TwitchUser } from "@/shared/api/types";
+import { Channel } from "diagnostics_channel";
+import s from "@/styles/Streamer.module.scss";
 
-export const StreamerInfo = () => {
+interface Props {
+  user?: TwitchUser;
+  userFollowers?: Channel[];
+  currentStream?: TwitchStream;
+  emotes?: any;
+  clips?: any;
+}
+
+export const StreamerInfo = ({
+  user,
+  userFollowers,
+  currentStream,
+  emotes,
+  clips,
+}: Props) => {
   const router = useRouter();
   const id = router?.query?.id as string;
-
   const navigate = useRouter();
 
   const [isModalOpen, setIsModalOpen] = React.useState(false);
-  const { data: user, isFetching: isFetchingUser } = useQuery({
-    queryKey: ["getUser"],
-    queryFn: async () => getUserById(id),
-    refetchOnWindowFocus: false,
-  });
 
-  const { data: userFollowers } = useQuery({
-    queryKey: ["getUserFollowers"],
-    queryFn: async () => getUserFollowers(id),
-    refetchOnWindowFocus: false,
-  });
-  console.log("Followers", userFollowers);
+  console.log("Clips", clips);
 
-  const { data: currentStream, isFetching: isFetchingStream } = useQuery({
-    queryKey: ["getCurrentStream"],
-    queryFn: async () => getCurrentStreamByUserId(id),
-    refetchOnWindowFocus: false,
-  });
-
-  console.log("STREAM", currentStream);
-  if (!user && !isFetchingUser && !isFetchingStream) {
-    sessionStorage.setItem("userNotFound", "true");
-    navigate.push("/");
-  }
+  // console.log("STREAM", currentStream);
+  // if (!user && !isFetchingUser && !isFetchingStream) {
+  //   sessionStorage.setItem("userNotFound", "true");
+  //   navigate.push("/");
+  // }
   return (
     <>
       <section className={s.streamer}>
@@ -79,7 +69,7 @@ export const StreamerInfo = () => {
             <iframe
               src={`https://www.twitch.tv/embed/${user?.display_name}/chat?parent=localhost&darkpopout`}
               height="720"
-              width="400" // Вы можете настроить ширину чата по своему усмотрению
+              width="400"
             ></iframe>
             {currentStream && (
               <div>

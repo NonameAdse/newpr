@@ -153,3 +153,10 @@ export interface StreamerInfoProps {
   user: User;
   currentStream: TwitchCurrent;
 }
+
+export type TopGame = {
+  box_art_url: string;
+  id: string;
+  igdb_id: string;
+  name: string;
+};
