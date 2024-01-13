@@ -222,13 +222,15 @@ export async function getVideosByUserId(
   }
 }
 
-export async function getTopGames(): Promise<{ data: TopGame[] }> {
-  const accessToken = await getAccessToken();
+export async function getTopGames(
+  accessToken?: string,
+): Promise<{ data: TopGame[] }> {
+  // const accessToken = await getAccessToken();
 
   try {
     const { data } = await axios.get("https://api.twitch.tv/helix/games/top", {
       params: {
-        first: 100,
+        first: 50,
       },
       headers: {
         "Client-ID": process.env.NEXT_PUBLIC_CLIENT_ID,
@@ -237,7 +239,7 @@ export async function getTopGames(): Promise<{ data: TopGame[] }> {
     });
 
     // const games = response.data.data;
-    return data;
+    return data.data;
   } catch (error: any) {
     console.error(error.response?.data || error.message);
     throw error;
@@ -246,7 +248,7 @@ export async function getTopGames(): Promise<{ data: TopGame[] }> {
 
 export async function getTopStreamsByGame(
   gameId: string,
-): Promise<{ data: TwitchCurrent[] | null }> {
+): Promise<TwitchCurrent[]> {
   const accessToken = await getAccessToken();
 
   try {
@@ -261,7 +263,7 @@ export async function getTopStreamsByGame(
     });
 
     // const games = response.data.data;
-    return data;
+    return data.data;
   } catch (error: any) {
     console.error(error.response?.data || error.message);
     throw error;
@@ -305,6 +307,29 @@ export async function getUserClips(
     const { data } = await axios.get("https://api.twitch.tv/helix/clips", {
       params: {
         broadcaster_id: userId,
+      },
+      headers: {
+        "Client-ID": process.env.NEXT_PUBLIC_CLIENT_ID,
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    return data.data;
+  } catch (error: any) {
+    console.error(error.response?.data || error.message);
+    throw error;
+  }
+}
+export async function getGameClips(
+  gameId: string,
+  // accessToken?: string,
+): Promise<any> {
+  const accessToken = await getAccessToken();
+
+  try {
+    const { data } = await axios.get("https://api.twitch.tv/helix/clips", {
+      params: {
+        game_id: gameId,
       },
       headers: {
         "Client-ID": process.env.NEXT_PUBLIC_CLIENT_ID,

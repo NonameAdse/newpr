@@ -1,4 +1,4 @@
-import { getTopStreamsByGame } from "@/shared/api/axios";
+import { getGameClips, getTopStreamsByGame } from "@/shared/api/axios";
 import { redis } from "@/shared/lib/redis";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";

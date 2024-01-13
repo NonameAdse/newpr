@@ -4,11 +4,24 @@ import { useRouter } from "next/navigation";
 import { DialogInput } from "@/components/dialog-search";
 import { Button } from "@/components/ui/button";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
+import { GetServerSidePropsContext } from "next";
+import { getAccessToken, getTopGames } from "@/shared/api/axios";
+import EmblaCarousel from "@/components/carousel/EmblaCarousel";
 
 const inter = Inter({ subsets: ["latin"] });
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const id = context?.params?.id as string;
+  const accessToken = await getAccessToken();
 
-export default function Home() {
+  const games = await getTopGames(accessToken);
+
+  return { props: { games } };
+}
+
+export default function Home({ games }: any) {
   const navigate = useRouter();
+
+  console.log(games);
 
   return (
     <>
@@ -19,8 +32,8 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="h-[2000px] pt-14">
-        <section className="h-full w-full overflow-hidden">
-          <div className="flex flex-col items-center justify-end bg-background py-24 md:py-12">
+        <section className="w-full overflow-hidden">
+          <div className="flex flex-col items-center justify-end bg-background pb-10 pt-24 md:py-12">
             <div className="flex flex-col items-center justify-center ">
               <h1 className="pb-4 text-9xl">Discover Twitch Vods</h1>
               <p className="pb-10 text-2xl">
@@ -29,14 +42,19 @@ export default function Home() {
               </p>
             </div>
             <DialogInput>
-              <Button className="text-text bg-button-foreground px-40 text-white">
+              <Button className="bg-button-foreground px-40 text-text text-white">
                 <MagnifyingGlassIcon />
                 Search Steamer
               </Button>
             </DialogInput>
           </div>
         </section>
-        <section></section>
+        <section className="flex w-full flex-col items-center justify-center">
+          <div>
+            <h1 className="text-7xl text-red-500">Top streams Now</h1>
+          </div>
+          <EmblaCarousel slides={games}></EmblaCarousel>
+        </section>
       </main>
     </>
   );
