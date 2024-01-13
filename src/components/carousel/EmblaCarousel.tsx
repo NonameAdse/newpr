@@ -5,6 +5,7 @@ import { Thumb } from "./EmblaCarouselThumbsButton";
 import { getTopStreamsByGame } from "@/shared/api/axios";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
+import DialogIframe from "../dialog-iframe";
 // import imageByIndex from "./imageByIndex";
 
 type PropType = {
@@ -12,20 +13,29 @@ type PropType = {
   // options?: EmblaOptionsType;
 };
 
-const EmblaCarousel: React.FC<PropType> = (props) => {
-  const { slides } = props;
+const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
   const router = useRouter();
   const id = router?.query?.id as string;
-  const [selectedIndex, setSelectedIndex] = useState(slides[0]?.id);
+  const [selectedIndex, setSelectedIndex] = useState(Number(slides[0]?.id));
   const [emblaMainRef, emblaMainApi] = useEmblaCarousel();
   const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel({
     containScroll: "keepSnaps",
     dragFree: true,
   });
+  const [idGame, setIdGame] = useState<string>(slides[0]?.id);
+
+  const { data: game, refetch } = useQuery({
+    queryKey: [`getPopStreams${selectedIndex}`],
+    queryFn: async () => getTopStreamsByGame(idGame),
+    refetchOnWindowFocus: false,
+  });
 
   const onThumbClick = useCallback(
     (index: number) => {
       if (!emblaMainApi || !emblaThumbsApi) return;
+      setSelectedIndex(index);
+      setIdGame(index.toString());
+
       emblaMainApi.scrollTo(index);
     },
     [emblaMainApi, emblaThumbsApi],
@@ -33,7 +43,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
 
   const onSelect = useCallback(() => {
     if (!emblaMainApi || !emblaThumbsApi) return;
-    setSelectedIndex(emblaMainApi.selectedScrollSnap());
+    refetch();
     emblaThumbsApi.scrollTo(emblaMainApi.selectedScrollSnap());
   }, [emblaMainApi, emblaThumbsApi, setSelectedIndex]);
 
@@ -44,18 +54,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     emblaMainApi.on("reInit", onSelect);
   }, [emblaMainApi, onSelect]);
 
-  const [idGame, setIdGame] = useState<string>(slides[0]?.id);
-
-  const {
-    data: game,
-    isFetching: isFetchingGames,
-    refetch,
-  } = useQuery({
-    queryKey: ["getPopStreams"],
-    queryFn: async () => getTopStreamsByGame(idGame),
-    refetchOnWindowFocus: false,
-  });
-  console.log("NEWWW", game);
+  console.log("GAME", game);
 
   return (
     <div className="embla">
@@ -64,8 +63,8 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
           <div className="embla-thumbs__container">
             {slides.map((game: any, index: number) => (
               <Thumb
-                onClick={() => onThumbClick(index)}
-                selected={index === selectedIndex}
+                onClick={() => onThumbClick(Number(game.id))}
+                selected={Number(game.id) === selectedIndex}
                 index={index}
                 imgSrc={game.box_art_url
                   .replace("{width}", "320")
@@ -78,20 +77,24 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
       </div>
 
       <div className="embla__viewport" ref={emblaMainRef}>
-        <div className="grid grid-cols-4 gap-4">
-          {game?.map((game: any) => (
-            <div className="embla__slide" key={game.id}>
-              <div className="embla__slide__number"></div>
-              <img
-                className="embla__slide__img"
-                src={game.thumbnail_url
+        <div className="embla__slide">
+          <div className="grid grid-cols-4 gap-4">
+            {game?.map((game: any) => (
+              <DialogIframe url="" name={game.user_name} key={game.id}>
+                <div>
+                  <div className="embla__slide__number"></div>
+                  <img
+                    className="embla__slide__img"
+                    src={game.thumbnail_url
 
-                  .replace("{width}", "320")
-                  .replace("{height}", "180")}
-                alt="Your alt text"
-              />
-            </div>
-          ))}
+                      .replace("{width}", "320")
+                      .replace("{height}", "180")}
+                    alt="Your alt text"
+                  />
+                </div>
+              </DialogIframe>
+            ))}
+          </div>
         </div>
       </div>
     </div>
