@@ -41,6 +41,8 @@
     --background: 254 12% 6%;
     --foreground: 0 0% 98%;
 
+    --bg-section: 240 10% 12%;
+
     --card: 254 12% 12%;
     --card-foreground: 0 0% 98%;
 
@@ -82,8 +84,8 @@
 }
 
 @layer components {
-  .containerM {
-    @apply px-[10vw] xl:px-[3vw] lg:px-0;
+  .container {
+    @apply px-[8vw] xl:px-[4vw] lg:px-[1vw];
   }
   .embla__container {
     @apply grid grid-cols-4 gap-4;

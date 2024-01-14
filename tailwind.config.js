@@ -34,6 +34,7 @@ module.exports = {
         text: "hsl(var(--text))",
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
+        bg_section: "hsl(var(--bg-section))",
         foreground: "hsl(var(--foreground))",
         badge: "hsl(var(--badge))",
         primary: {

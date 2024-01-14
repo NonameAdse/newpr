@@ -1,36 +1,41 @@
-import { cn } from "@/shared/lib/utils";
 import React, { ReactNode } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "./ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 
 type Props = {
   url?: string;
   clsn?: string;
   children?: ReactNode;
   name?: string;
+  type?: "stream" | "ofFline";
+  videoId?: number;
 };
 
-const DialogIframe = ({ url, clsn, children, name }: Props) => {
+const DialogIframe = ({ url, clsn, children, name, type, videoId }: Props) => {
   return (
     <Dialog>
-      <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="h-auto max-w-lg rounded-xl border-[3px] border-card bg-black ">
-        <DialogHeader className="">
-          <DialogTitle className="flex items-center justify-center"></DialogTitle>
-        </DialogHeader>
-        <div>
-          <div>
+      <DialogTrigger className="" asChild>
+        {children}
+      </DialogTrigger>
+      <DialogContent className="z-1000 flex h-[82vh] w-[92vw] items-center justify-center rounded-xl border-[3px] border-card bg-background">
+        <div className="flex">
+          {type === "stream" ? (
+            <>
+              <iframe
+                className="h-[76vh] w-[70vw] pr-2  "
+                src={`https://player.twitch.tv/?channel=${name}&autoplay=1&muted=1&parent=localhost`}
+              ></iframe>
+              <iframe
+                className="h-[76vh] w-[20vw] rounded-2xl pt-2 "
+                src={`https://www.twitch.tv/embed/${name}/chat?parent=localhost&darkpopout`}
+              ></iframe>
+            </>
+          ) : (
             <iframe
-              src={`https://player.twitch.tv/?channel=${name}&autoplay=1&muted=1&parent=localhost`}
-              height="720"
-              width="400"
+              className="h-[76vh] w-[90vw]"
+              src={`https://player.twitch.tv/?video=v${name}&parent=localhost&parent=twitchers.vercel.app&autoplay=false`}
+              allowFullScreen
             ></iframe>
-          </div>
+          )}
         </div>
       </DialogContent>
     </Dialog>

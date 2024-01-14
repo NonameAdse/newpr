@@ -31,7 +31,7 @@ const Streamer = ({
 }: any) => {
   console.log("USERNEW", user);
   return (
-    <article className="container">
+    <article className="container overflow-x-hidden">
       <StreamerInfo
         user={user}
         currentStream={currentStream}

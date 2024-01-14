@@ -4,6 +4,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import s from "@/styles/Streamer.module.scss";
 import { getVideosByUserId } from "@/shared/api/axios";
 import { useRouter } from "next/router";
+import CardVideo from "./card-video";
 
 export const StreamerVideos = () => {
   const router = useRouter();
@@ -47,7 +48,6 @@ export const StreamerVideos = () => {
     if (entry?.isIntersecting && hasNextPage) {
       // if ( - old === 16) {
       fetchNextPage();
-      console.log("fetcj");
       // }
     }
   }, [entry]);
@@ -68,51 +68,13 @@ export const StreamerVideos = () => {
   }
 
   const videos = data?.pages.flatMap((page) => page.videos);
+  console.log("VIDEO", videos);
   return (
     <section className={s.streamer_video}>
-      <div className={s.noise}></div>
-      <div className={s.figure1}></div>
-      <div className={s.figure2}></div>
       <div className={s.video_grid}>
         {videos?.map((video) => (
-          <div
-            ref={ref}
-            key={video.id}
-            onClick={() => openModal(video.id)}
-            className={s.vod_container}
-          >
-            <span className={s.vod_img}>
-              <img
-                src={video.thumbnail_url
-                  .replace("%{width}", "320")
-                  .replace("%{height}", "180")}
-                alt=""
-              />
-            </span>
-            <div className={s.vod_info}>
-              <div className={s.vod_info_top}>
-                <div className={s.vod_view}>
-                  {/* <MdOutlineRemoveRedEye /> */}
-                  <span>{video.view_count}</span>
-                </div>
-                <div className={s.vod_duration}>
-                  <span>
-                    {video.duration
-                      .split(/[hms]/)
-                      .filter(Boolean)
-                      .map((tp) => tp.padStart(2, "0"))
-                      .join(":")}
-                  </span>
-                </div>
-              </div>
-              <div className={s.vod_info_bottom}>
-                <div className={s.vod_info_container}>
-                  <div className={s.vod_user}>{video.user_login}</div>
-                  <div className={s.vod_title}>{video.title}</div>
-                  <div className={s.vod_day}>1 day ago</div>
-                </div>
-              </div>
-            </div>
+          <div ref={ref} key={video.id}>
+            <CardVideo video={video}></CardVideo>
           </div>
         ))}
         {isFetchingNextPage && (

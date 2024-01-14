@@ -84,13 +84,17 @@ export interface StreamerVideosProps {
 
 export interface TwitchVideo {
   id: string;
+  user_name?: string;
+  user_login: string;
   user_id: string;
   title: string;
   thumbnail_url: string;
   duration: string;
+  published_at?: string;
+  started_at: string;
   view_count: number;
   language: string;
-  user_login: string;
+  viewer_count?: string;
 }
 export interface TwitchUserResponse {
   data: TwitchUser[];
