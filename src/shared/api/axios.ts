@@ -255,6 +255,7 @@ export async function getTopStreamsByGame(
     const { data } = await axios.get("https://api.twitch.tv/helix/streams", {
       params: {
         game_id: gameId,
+        first: 40,
       },
       headers: {
         "Client-ID": process.env.NEXT_PUBLIC_CLIENT_ID,
@@ -321,16 +322,16 @@ export async function getUserClips(
   }
 }
 export async function getGameClips(
-  gameId: string,
-  // accessToken?: string,
+  // gameId: string,
+  accessToken?: string,
 ): Promise<any> {
-  const accessToken = await getAccessToken();
+  // const accessToken = await getAccessToken();
 
   try {
     const { data } = await axios.get("https://api.twitch.tv/helix/clips", {
-      params: {
-        game_id: gameId,
-      },
+      // params: {
+      //   game_id: gameId,
+      // },
       headers: {
         "Client-ID": process.env.NEXT_PUBLIC_CLIENT_ID,
         Authorization: `Bearer ${accessToken}`,

@@ -5,7 +5,7 @@ import { DialogInput } from "@/components/dialog-search";
 import { Button } from "@/components/ui/button";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 import { GetServerSidePropsContext } from "next";
-import { getAccessToken, getTopGames } from "@/shared/api/axios";
+import { getAccessToken, getGameClips, getTopGames } from "@/shared/api/axios";
 import EmblaCarousel from "@/components/carousel/EmblaCarousel";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -14,14 +14,15 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const accessToken = await getAccessToken();
 
   const games = await getTopGames(accessToken);
+  const clip = getGameClips(accessToken);
 
   return { props: { games } };
 }
 
-export default function Home({ games }: any) {
+export default function Home({ games, clip }: any) {
   const navigate = useRouter();
 
-  console.log(games);
+  console.log("CLIP", clip);
 
   return (
     <>
@@ -31,7 +32,7 @@ export default function Home({ games }: any) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="h-[2000px] container">
+      <main className="container h-[2000px]">
         <section className="w-full overflow-hidden">
           <div className="flex flex-col items-center justify-end bg-background pb-10 pt-24 md:py-12">
             <div className="flex flex-col items-center justify-center ">
@@ -49,12 +50,13 @@ export default function Home({ games }: any) {
             </DialogInput>
           </div>
         </section>
-        <section className="flex w-full relative border-[2px] rounded-2xl flex-col items-center justify-center">
+        <section className="relative flex w-full flex-col items-center justify-center rounded-2xl border-[2px]">
           <div>
             <h1 className="text-7xl text-white">Top streams Now</h1>
           </div>
           <EmblaCarousel slides={games}></EmblaCarousel>
         </section>
+        <section></section>
       </main>
     </>
   );

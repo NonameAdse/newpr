@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useCallback } from "react";
-// import { EmblaOptionsType } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
 import { Thumb } from "./EmblaCarouselThumbsButton";
 import { getTopStreamsByGame } from "@/shared/api/axios";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import DialogIframe from "../dialog-iframe";
 import CardVideo from "../card-video";
-// import imageByIndex from "./imageByIndex";
+import { Skeleton } from "../ui/skeleton";
 
 type PropType = {
   slides: any;
@@ -25,7 +23,11 @@ const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
   });
   const [idGame, setIdGame] = useState<string>(slides[0]?.id);
 
-  const { data: game, refetch } = useQuery({
+  const {
+    data: game,
+    refetch,
+    isLoading,
+  } = useQuery({
     queryKey: [`getPopStreams${selectedIndex}`],
     queryFn: async () => getTopStreamsByGame(idGame),
     refetchOnWindowFocus: false,
@@ -45,8 +47,8 @@ const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
   const onSelect = useCallback(() => {
     if (!emblaMainApi || !emblaThumbsApi) return;
     refetch();
-    emblaThumbsApi.scrollTo(emblaMainApi.selectedScrollSnap());
-  }, [emblaMainApi, emblaThumbsApi, setSelectedIndex]);
+    // emblaThumbsApi.scrollTo(emblaMainApi.selectedScrollSnap());
+  }, [emblaMainApi, emblaThumbsApi]);
 
   useEffect(() => {
     if (!emblaMainApi) return;
@@ -56,6 +58,7 @@ const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
   }, [emblaMainApi, onSelect]);
 
   console.log("GAME", game);
+  console.log("SLIDES", slides);
 
   return (
     <div className="relative rounded-xl p-5">
@@ -66,11 +69,12 @@ const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
               <Thumb
                 onClick={() => onThumbClick(Number(game.id))}
                 selected={Number(game.id) === selectedIndex}
-                index={index}
+                index={Number(game.id)}
+                number={index}
                 imgSrc={game.box_art_url
                   .replace("{width}", "2000")
                   .replace("{height}", "2000")}
-                key={game.id}
+                key={index}
               />
             ))}
           </div>
@@ -79,9 +83,22 @@ const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
 
       <div className="z-999" ref={emblaMainRef}>
         <div className="grid grid-cols-5 gap-3">
-          {game?.map((game: any) => (
-            <CardVideo  key={game.id} video={game} type="online"></CardVideo>
-          ))}
+          {isLoading
+            ? Array.from({ length: 50 }, (_, index) => (
+                <React.Fragment key={`skeleton-${index}`}>
+                  <div
+                    className="relative mr-4 w-full overflow-hidden rounded-2xl"
+                    style={{ paddingBottom: "52%" }}
+                  >
+                    <div className="absolute inset-0 px-3">
+                      <Skeleton className="h-full w-full" />
+                    </div>
+                  </div>
+                </React.Fragment>
+              ))
+            : game?.map((game: any) => (
+                <CardVideo key={game.id} video={game} type="online"></CardVideo>
+              ))}
         </div>
       </div>
     </div>

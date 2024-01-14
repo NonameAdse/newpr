@@ -3,6 +3,7 @@ import { TwitchVideo } from "@/shared/api/types";
 import { formatCreatedAt } from "@/shared/lib/data-forma";
 import { EyeOpenIcon } from "@radix-ui/react-icons";
 import DialogIframe from "./dialog-iframe";
+import { Badge } from "./ui/badge";
 
 type Props = {
   video: TwitchVideo;
@@ -35,22 +36,28 @@ const CardVideo = ({ video, type }: Props) => {
         </span>
         <div className="absolute left-0 top-0 flex h-full w-full flex-col justify-between p-4">
           <div className="flex items-start justify-between text-sm">
-            <div className="flex items-center rounded-full bg-black/60 px-1 text-white">
-              <EyeOpenIcon className="mr-1 h-[14px] w-[14px]" />
-              <span className="font-bold">
-                {online ? video.viewer_count : video.view_count}
-              </span>
+            <div className="flex items-center px-1 text-white">
+              <Badge className="my-[-6px] rounded-full bg-black/80 text-white">
+                <EyeOpenIcon className="mr-3 h-[12px] w-[12px]" />
+                <Badge className="mx-[-6px] rounded-full bg-white/20 text-white ">
+                  {online ? video.viewer_count : video.view_count}
+                </Badge>
+              </Badge>
             </div>
-            <div className="flex h-5 items-center rounded-full bg-black/60 px-1 text-white">
+            <div className="flex h-5 items-center rounded-full  px-1 text-white">
               <span className="font-bold">
                 {online ? (
-                  <div>Online</div>
+                  <Badge className="rounded-full bg-red-600 text-white">
+                    Live
+                  </Badge>
                 ) : (
-                  video.duration
-                    .split(/[hms]/)
-                    .filter(Boolean)
-                    .map((tp) => tp.padStart(2, "0"))
-                    .join(":")
+                  <Badge className="rounded-full bg-black/80 text-white">
+                    {video.duration
+                      .split(/[hms]/)
+                      .filter(Boolean)
+                      .map((tp) => tp.padStart(2, "0"))
+                      .join(":")}
+                  </Badge>
                 )}
               </span>
             </div>
