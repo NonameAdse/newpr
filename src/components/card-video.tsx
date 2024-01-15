@@ -7,16 +7,17 @@ import { Badge } from "./ui/badge";
 
 type Props = {
   video: TwitchVideo;
-  type?: "ofline" | "online";
+  type: "offline" | "stream" | "clips";
 };
 
 const CardVideo = ({ video, type }: Props) => {
-  const online = type === "online";
+  const online = type === "stream";
   return (
     <DialogIframe
       name={online ? video.user_name : video.id}
       key={video.id}
-      type={online ? "stream" : "ofFline"}
+      type={type}
+      url={video?.embed_url}
     >
       <div className="relative mb-1 h-full w-full cursor-pointer rounded-sm px-4">
         <span className="relative box-border block overflow-hidden opacity-100">
@@ -46,17 +47,21 @@ const CardVideo = ({ video, type }: Props) => {
             </div>
             <div className="flex h-5 items-center rounded-full  px-1 text-white">
               <span className="font-bold">
-                {online ? (
+                {type === "stream" ? (
                   <Badge className="rounded-full bg-red-600 text-white">
                     Live
                   </Badge>
-                ) : (
+                ) : type === "offline" ? (
                   <Badge className="rounded-full bg-black/80 text-white">
                     {video.duration
                       .split(/[hms]/)
                       .filter(Boolean)
                       .map((tp) => tp.padStart(2, "0"))
                       .join(":")}
+                  </Badge>
+                ) : (
+                  <Badge className="rounded-full bg-black/80 text-white">
+                    {video.duration} s
                   </Badge>
                 )}
               </span>

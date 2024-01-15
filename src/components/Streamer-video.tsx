@@ -57,7 +57,7 @@ export const StreamerVideos = () => {
       <div className="grid grid-cols-5 gap-4">
         {videos?.map((video) => (
           <div ref={ref} key={video.id}>
-            <CardVideo video={video}></CardVideo>
+            <CardVideo type="offline" video={video}></CardVideo>
           </div>
         ))}
         {isFetchingNextPage && (

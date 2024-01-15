@@ -6,7 +6,7 @@ type Props = {
   clsn?: string;
   children?: ReactNode;
   name?: string;
-  type?: "stream" | "ofFline";
+  type?: "stream" | "offline" | "clips";
   videoId?: number;
 };
 
@@ -29,11 +29,16 @@ const DialogIframe = ({ url, clsn, children, name, type, videoId }: Props) => {
                 src={`https://www.twitch.tv/embed/${name}/chat?parent=localhost&darkpopout`}
               ></iframe>
             </>
-          ) : (
+          ) : type === "offline" ? (
             <iframe
               className="h-[76vh] w-[90vw]"
               src={`https://player.twitch.tv/?video=v${name}&parent=localhost&parent=twitchers.vercel.app&autoplay=false`}
               allowFullScreen
+            ></iframe>
+          ) : (
+            <iframe
+              className="h-[76vh] w-[90vw]"
+              src={`${url}&parent=localhost`}
             ></iframe>
           )}
         </div>

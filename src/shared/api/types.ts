@@ -87,6 +87,7 @@ export interface TwitchVideo {
   user_name?: string;
   user_login: string;
   user_id: string;
+  embed_url: string;
   title: string;
   thumbnail_url: string;
   duration: string;

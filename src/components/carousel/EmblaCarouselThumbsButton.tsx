@@ -6,7 +6,8 @@ type PropType = {
   imgSrc: string;
   index: number;
   number: number;
-  onClick: () => void;
+  type?: "clips" | "stream";
+  onClick: (index: number, type: "clips" | "stream") => void;
 };
 
 export const Thumb: React.FC<PropType> = (props) => {
@@ -37,12 +38,18 @@ export const Thumb: React.FC<PropType> = (props) => {
       </button>
 
       <div className="absolute top-0 z-10 flex h-[220px] w-full flex-col rounded-2xl opacity-0 group-hover:opacity-100">
-        <div onClick={onClick} className="flex h-[50%] w-full items-center justify-center bg-blue-600/30">
+        <div
+          onClick={() => onClick(index, "stream")}
+          className="flex h-[50%] w-full items-center justify-center bg-blue-600/30"
+        >
           <div>
             <h1>Watch stream online</h1>
           </div>
         </div>
-        <div className="flex h-[50%] w-full items-center justify-center bg-green-600/40">
+        <div
+          onClick={() => onClick(index, "clips")}
+          className="flex h-[50%] w-full items-center justify-center bg-green-600/40"
+        >
           <div>Top Clips</div>
         </div>
       </div>

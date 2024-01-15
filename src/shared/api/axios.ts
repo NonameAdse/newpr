@@ -248,11 +248,19 @@ export async function getTopGames(
 
 export async function getTopStreamsByGame(
   gameId: string,
+  type: string,
 ): Promise<TwitchCurrent[]> {
   const accessToken = await getAccessToken();
 
   try {
-    const { data } = await axios.get("https://api.twitch.tv/helix/streams", {
+    let url;
+    if (type === "clips") {
+      url = "https://api.twitch.tv/helix/clips";
+    } else {
+      url = "https://api.twitch.tv/helix/streams";
+    }
+
+    const { data } = await axios.get(url, {
       params: {
         game_id: gameId,
         first: 40,
@@ -263,7 +271,6 @@ export async function getTopStreamsByGame(
       },
     });
 
-    // const games = response.data.data;
     return data.data;
   } catch (error: any) {
     console.error(error.response?.data || error.message);

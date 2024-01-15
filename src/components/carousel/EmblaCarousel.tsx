@@ -22,43 +22,36 @@ const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
     dragFree: true,
   });
   const [idGame, setIdGame] = useState<string>(slides[0]?.id);
+  const [type, setType] = useState<"offline" | "stream" | "clips">("stream");
 
   const {
     data: game,
     refetch,
     isLoading,
+    isRefetching,
   } = useQuery({
-    queryKey: [`getPopStreams${selectedIndex}`],
-    queryFn: async () => getTopStreamsByGame(idGame),
+    queryKey: [`getPopStreams${selectedIndex}${idGame}${type}`],
+    queryFn: async (test) => getTopStreamsByGame(idGame, type),
     refetchOnWindowFocus: false,
   });
 
+  console.log("ISLOAD", isLoading);
+  console.log("ISREFER", isRefetching);
+
   const onThumbClick = useCallback(
-    (index: number) => {
+    (index: number, type: "clips" | "stream") => {
       if (!emblaMainApi || !emblaThumbsApi) return;
       setSelectedIndex(index);
       setIdGame(index.toString());
+      setType(type);
 
-      emblaMainApi.scrollTo(index);
+      refetch();
     },
     [emblaMainApi, emblaThumbsApi],
   );
 
-  const onSelect = useCallback(() => {
-    if (!emblaMainApi || !emblaThumbsApi) return;
-    refetch();
-    // emblaThumbsApi.scrollTo(emblaMainApi.selectedScrollSnap());
-  }, [emblaMainApi, emblaThumbsApi]);
-
-  useEffect(() => {
-    if (!emblaMainApi) return;
-    onSelect();
-    emblaMainApi.on("select", onSelect);
-    emblaMainApi.on("reInit", onSelect);
-  }, [emblaMainApi, onSelect]);
-
   console.log("GAME", game);
-  console.log("SLIDES", slides);
+  // console.log("SLIDES", slides);
 
   return (
     <div className="relative rounded-xl p-5">
@@ -67,7 +60,7 @@ const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
           <div className="flex flex-row">
             {slides.map((game: any, index: number) => (
               <Thumb
-                onClick={() => onThumbClick(Number(game.id))}
+                onClick={(index, type) => onThumbClick(index, type)}
                 selected={Number(game.id) === selectedIndex}
                 index={Number(game.id)}
                 number={index}
@@ -97,7 +90,7 @@ const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
                 </React.Fragment>
               ))
             : game?.map((game: any) => (
-                <CardVideo key={game.id} video={game} type="online"></CardVideo>
+                <CardVideo key={game.id} video={game} type={type}></CardVideo>
               ))}
         </div>
       </div>
