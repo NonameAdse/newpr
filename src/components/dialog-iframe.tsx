@@ -22,17 +22,17 @@ const DialogIframe = ({ url, clsn, children, name, type, videoId }: Props) => {
             <>
               <iframe
                 className="h-[76vh] w-[70vw] pr-2  "
-                src={`https://player.twitch.tv/?channel=${name}&autoplay=1&muted=1&parent=localhost`}
+                src={`https://player.twitch.tv/?channel=${name}&autoplay=1&muted=1&parent=localhost&parent=twitchers-next.vercel.app`}
               ></iframe>
               <iframe
                 className="h-[76vh] w-[20vw] rounded-2xl pt-2 "
-                src={`https://www.twitch.tv/embed/${name}/chat?parent=localhost&darkpopout`}
+                src={`https://www.twitch.tv/embed/${name}/chat?parent=localhost&parent=twitchers-next.vercel.app&darkpopout`}
               ></iframe>
             </>
           ) : type === "offline" ? (
             <iframe
               className="h-[76vh] w-[90vw]"
-              src={`https://player.twitch.tv/?video=v${name}&parent=localhost&parent=twitchers.vercel.app&autoplay=false`}
+              src={`https://player.twitch.tv/?video=v${name}&parent=localhost&parent=twitchers-next.vercel.app&autoplay=false`}
               allowFullScreen
             ></iframe>
           ) : (

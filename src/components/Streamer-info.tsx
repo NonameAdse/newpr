@@ -45,7 +45,7 @@ export const StreamerInfo = ({
           <span className="z-100">
             <iframe
               className="z[-1000] h-[76vh] w-[70vw] pr-2 "
-              src={`https://player.twitch.tv/?channel=${user?.display_name}&autoplay=1&muted=1&parent=localhost`}
+              src={`https://player.twitch.tv/?channel=${user?.display_name}&autoplay=1&muted=1&parent=localhost&parent=twitchers-next.vercel.app`}
             ></iframe>
           </span>
         </DialogIframe>
