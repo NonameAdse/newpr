@@ -44,7 +44,7 @@ export const StreamerInfo = ({
         <DialogIframe type="stream" name={user?.display_name}>
           <span className="z-100">
             <iframe
-              className="z[-1000] h-[76vh] w-[70vw] pr-2  "
+              className="z[-1000] h-[76vh] w-[70vw] pr-2 "
               src={`https://player.twitch.tv/?channel=${user?.display_name}&autoplay=1&muted=1&parent=localhost`}
             ></iframe>
           </span>

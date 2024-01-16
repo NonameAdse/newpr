@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import CardVideo from "../card-video";
 import { Skeleton } from "../ui/skeleton";
+import { motion, AnimatePresence } from "framer-motion";
 
 type PropType = {
   slides: any;
@@ -31,24 +32,22 @@ const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
     isRefetching,
   } = useQuery({
     queryKey: [`getPopStreams${selectedIndex}${idGame}${type}`],
-    queryFn: async (test) => getTopStreamsByGame(idGame, type),
+    queryFn: async () => getTopStreamsByGame(idGame, type),
     refetchOnWindowFocus: false,
   });
 
-  console.log("ISLOAD", isLoading);
-  console.log("ISREFER", isRefetching);
-
-  const onThumbClick = useCallback(
-    (index: number, type: "clips" | "stream") => {
-      if (!emblaMainApi || !emblaThumbsApi) return;
+  const onThumbClick = (index: number, type: "clips" | "stream") => {
+    try {
       setSelectedIndex(index);
       setIdGame(index.toString());
       setType(type);
 
       refetch();
-    },
-    [emblaMainApi, emblaThumbsApi],
-  );
+    } catch (error) {
+      console.error(error);
+    }
+    // if (!emblaMainApi || !emblaThumbsApi) return;
+  };
 
   console.log("GAME", game);
   // console.log("SLIDES", slides);
@@ -76,22 +75,37 @@ const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
 
       <div className="z-999" ref={emblaMainRef}>
         <div className="grid grid-cols-5 gap-3">
-          {isLoading
-            ? Array.from({ length: 50 }, (_, index) => (
-                <React.Fragment key={`skeleton-${index}`}>
-                  <div
+          <AnimatePresence>
+            {isLoading && !isRefetching
+              ? Array.from({ length: 50 }, (_, index) => (
+                  <React.Fragment key={`skeleton-${index}`}>
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.1 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0.2, scale: 0.9 }}
+                      transition={{ duration: 0.2 }}
+                      className="relative mr-4 w-full overflow-hidden rounded-2xl"
+                      style={{ paddingBottom: "52%" }}
+                    >
+                      <div className="absolute inset-0 px-3">
+                        <Skeleton className="h-full w-full" />
+                      </div>
+                    </motion.div>
+                  </React.Fragment>
+                ))
+              : game?.map((game: any) => (
+                  <motion.div
+                    initial={{ opacity: 0.7 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                    key={game.id}
                     className="relative mr-4 w-full overflow-hidden rounded-2xl"
-                    style={{ paddingBottom: "52%" }}
                   >
-                    <div className="absolute inset-0 px-3">
-                      <Skeleton className="h-full w-full" />
-                    </div>
-                  </div>
-                </React.Fragment>
-              ))
-            : game?.map((game: any) => (
-                <CardVideo key={game.id} video={game} type={type}></CardVideo>
-              ))}
+                    <CardVideo video={game} type={type}></CardVideo>
+                  </motion.div>
+                ))}
+          </AnimatePresence>
         </div>
       </div>
     </div>
