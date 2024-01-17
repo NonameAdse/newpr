@@ -102,6 +102,7 @@ export interface TwitchVideo {
   id: string;
   user_name?: string;
   user_login: string;
+  created_at?: string;
   user_id: string;
   embed_url: string;
   title: string;

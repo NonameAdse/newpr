@@ -5,7 +5,6 @@ import {
   getEmotes,
   getUserById,
   getUserClips,
-  getUserFollowers,
 } from "@/shared/api/axios";
 import { Channel, Emotes, TwitchUser } from "@/shared/api/types";
 import { GetServerSidePropsContext } from "next";
@@ -29,13 +28,13 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 }
 const Streamer = ({ user, emotes, clips }: Props) => {
   return (
-    <article className="">
+    <article className="overflow-hidden">
       <StreamerInfo
         user={user}
         emotes={emotes}
         clips={clips}
       />
-      {/* <StreamerVideos /> */}
+      <StreamerVideos />
     </article>
   );
 };

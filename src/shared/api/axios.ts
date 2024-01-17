@@ -194,27 +194,30 @@ export async function getCurrentStreamByUserId(
 export async function getVideosByUserId(
   userId: string,
   cursor: string | null = null,
+  type: "offline" | "stream" | "clips",
 ): Promise<{ videos: TwitchVideo[]; nextCursor: string | null }> {
   const accessToken = await getAccessToken();
 
   try {
-    const response = await axios.get<TwitchVideoResponse>(
-      "https://api.twitch.tv/helix/videos",
-      {
-        params: {
-          user_id: userId,
-          first: 40,
-          after: cursor,
-        },
-        headers: {
-          "Client-ID": process.env.NEXT_PUBLIC_CLIENT_ID,
-          Authorization: `Bearer ${accessToken}`,
-        },
+    let url;
+    if (type === "clips") {
+      url = `https://api.twitch.tv/helix/clips?broadcaster_id=${userId}`;
+    } else {
+      url = `https://api.twitch.tv/helix/videos?user_id=${userId}`;
+    }
+    const { data } = await axios.get<TwitchVideoResponse>(url, {
+      params: {
+        first: 40,
+        after: cursor,
       },
-    );
+      headers: {
+        "Client-ID": process.env.NEXT_PUBLIC_CLIENT_ID,
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
 
-    const videos = response.data.data;
-    const nextCursor = response.data.pagination.cursor;
+    const videos = data.data;
+    const nextCursor = data.pagination.cursor;
 
     return { videos, nextCursor };
   } catch (error) {

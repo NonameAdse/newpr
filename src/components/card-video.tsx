@@ -15,7 +15,7 @@ const CardVideo = ({ video, type }: Props) => {
   return (
     <DialogIframe
       name={online ? video?.user_name : video?.id}
-      key={video.id}
+      key={video?.id}
       type={type}
       url={video?.embed_url}
     >
@@ -47,21 +47,23 @@ const CardVideo = ({ video, type }: Props) => {
             </div>
             <div className="flex h-5 items-center rounded-full  px-1 text-white">
               <span className="font-bold">
-                {type === "stream" ? (
+                {type === "stream" && (
                   <Badge className="rounded-full bg-red-600 text-white">
                     Live
                   </Badge>
-                ) : type === "offline" ? (
+                )}
+                {type === "offline" && typeof video?.duration === "string" && (
                   <Badge className="rounded-full bg-black/80 text-white">
-                    {video?.duration
+                    {video.duration
                       .split(/[hms]/)
                       .filter(Boolean)
                       .map((tp) => tp.padStart(2, "0"))
                       .join(":")}
                   </Badge>
-                ) : (
+                )}
+                {type === "clips" && (
                   <Badge className="rounded-full bg-black/80 text-white">
-                    {video?.duration} s
+                    {video.duration} s
                   </Badge>
                 )}
               </span>
@@ -77,9 +79,11 @@ const CardVideo = ({ video, type }: Props) => {
               </div>
               <div className="flex items-start text-base text-white">
                 {online && <span className="pr-2">started:</span>}
-                {online
+                {type === "stream"
                   ? formatCreatedAt(new Date(video?.started_at).getTime())
-                  : formatCreatedAt(new Date(video?.published_at!).getTime())}
+                  : type === "offline"
+                    ? formatCreatedAt(new Date(video?.published_at!).getTime())
+                    : formatCreatedAt(new Date(video?.created_at!).getTime())}
               </div>
             </div>
           </div>

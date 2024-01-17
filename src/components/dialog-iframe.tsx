@@ -13,7 +13,7 @@ type Props = {
 const DialogIframe = ({ url, clsn, children, name, type, videoId }: Props) => {
   return (
     <Dialog>
-      <DialogTrigger className="" asChild>
+      <DialogTrigger className="z-1000" asChild>
         {children}
       </DialogTrigger>
       <DialogContent className="z-1000 flex h-[82vh] w-[84vw] items-center justify-center rounded-xl border-[3px] border-card bg-background">
@@ -30,13 +30,13 @@ const DialogIframe = ({ url, clsn, children, name, type, videoId }: Props) => {
               ></iframe>
             </>
           ) : type === "offline" ? (
-              <iframe
-                className="h-[76vh] w-[78vw] aspect-video"
-                src={`https://player.twitch.tv/?video=v${name}&parent=localhost&parent=twitchers-next.vercel.app&autoplay=false`}
-              ></iframe>
+            <iframe
+              className="aspect-video h-[76vh] w-[78vw]"
+              src={`https://player.twitch.tv/?video=v${name}&parent=localhost&parent=twitchers-next.vercel.app&autoplay=false`}
+            ></iframe>
           ) : (
             <iframe
-              className="h-[76vh] w-[78vw] aspect-video"
+              className="aspect-video h-[76vh] w-[78vw]"
               src={`${url}&parent=localhost&parent=twitchers-next.vercel.app`}
             ></iframe>
           )}
