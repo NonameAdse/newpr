@@ -2,6 +2,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 import {
   AccessTokenResponse,
   Channel,
+  Emotes,
   SearchChannelsResponse,
   TopGame,
   TwitchCurrent,
@@ -108,7 +109,7 @@ export async function searchChannels(searchQuery: string): Promise<Channel[]> {
 export async function getUserFollowers(
   userId: string,
   accessToken?: string,
-): Promise<Channel[]> {
+): Promise<> {
   // const accessToken = await getAccessToken();
   try {
     const { data } = await axios.get(
@@ -281,7 +282,7 @@ export async function getTopStreamsByGame(
 export async function getEmotes(
   userId: string,
   accessToken?: string,
-): Promise<any> {
+): Promise<Emotes[]> {
   // const accessToken = await getAccessToken();
 
   try {
@@ -298,7 +299,7 @@ export async function getEmotes(
       },
     );
 
-    return data;
+    return data?.data;
   } catch (error: any) {
     console.error(error.response?.data || error.message);
     throw error;

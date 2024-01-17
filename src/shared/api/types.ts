@@ -82,6 +82,22 @@ export interface StreamerVideosProps {
   hasNextPage: boolean;
 }
 
+export interface Emotes {
+  emote_set_id: string;
+  emote_type: string;
+  format: string[];
+  id: string;
+  images: ImageUrls;
+  name: string;
+  scale: string[];
+  theme_mode: string[];
+  tier: string;
+}
+type ImageUrls = {
+  url_1x: string;
+  url_2x: string;
+  url_4x: string;
+};
 export interface TwitchVideo {
   id: string;
   user_name?: string;

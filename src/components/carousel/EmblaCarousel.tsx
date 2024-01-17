@@ -57,13 +57,13 @@ const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
       <div className="pb-4">
         <div className="overflow-hidden" ref={emblaThumbsRef}>
           <div className="flex flex-row">
-            {slides.map((game: any, index: number) => (
+            {slides?.map((game: any, index: number) => (
               <Thumb
                 onClick={(index, type) => onThumbClick(index, type)}
-                selected={Number(game.id) === selectedIndex}
-                index={Number(game.id)}
+                selected={Number(game?.id) === selectedIndex}
+                index={Number(game?.id)}
                 number={index}
-                imgSrc={game.box_art_url
+                imgSrc={game?.box_art_url
                   .replace("{width}", "2000")
                   .replace("{height}", "2000")}
                 key={index}
@@ -94,16 +94,11 @@ const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
                   </React.Fragment>
                 ))
               : game?.map((game: any) => (
-                  <motion.div
-                    initial={{ opacity: 0.7 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    key={game.id}
-                    className="relative mr-4 w-full overflow-hidden rounded-2xl"
-                  >
-                    <CardVideo video={game} type={type}></CardVideo>
-                  </motion.div>
+                  <CardVideo
+                    video={game}
+                    type={type}
+                    key={game?.id}
+                  ></CardVideo>
                 ))}
           </AnimatePresence>
         </div>

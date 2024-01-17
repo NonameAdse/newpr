@@ -33,7 +33,7 @@ export default function Home({ games, clip }: any) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="container h-[2000px]">
-        <section className="w-full overflow-hidden">
+        <section className="w-full overflow-x-hidden">
           <div className="flex flex-col items-center justify-end bg-background pb-10 pt-24 md:py-12">
             <div className="flex flex-col items-center justify-center ">
               <h1 className="pb-4 text-9xl">Discover Twitch Vods</h1>

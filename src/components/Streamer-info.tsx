@@ -1,25 +1,17 @@
 import React from "react";
 import { useRouter } from "next/router";
-import { TwitchStream, TwitchUser } from "@/shared/api/types";
+import { Emotes, TwitchStream, TwitchUser } from "@/shared/api/types";
 import { Channel } from "diagnostics_channel";
 import s from "@/styles/Streamer.module.scss";
 import DialogIframe from "./dialog-iframe";
 
 interface Props {
   user?: TwitchUser;
-  userFollowers?: Channel[];
-  currentStream?: TwitchStream;
-  emotes?: any;
+  emotes?: Emotes[];
   clips?: any;
 }
 
-export const StreamerInfo = ({
-  user,
-  userFollowers,
-  currentStream,
-  emotes,
-  clips,
-}: Props) => {
+export const StreamerInfo = ({ user, emotes, clips }: Props) => {
   const router = useRouter();
   const id = router?.query?.id as string;
   const navigate = useRouter();
@@ -33,21 +25,45 @@ export const StreamerInfo = ({
   //   sessionStorage.setItem("userNotFound", "true");
   //   navigate.push("/");
   // }
+  const getRandomPosition = () => ({
+    top: `${Math.random() * 32}vh`, // Используйте более маленький диапазон для top
+    left: `${Math.random() * 100}vw`,
+    transform: `rotate(${Math.random() > 0.5 ? "" : "-"}${Math.random() * 10}deg)`,
+  });
+  console.log("USER", user);
+  console.log("EMOTES", emotes);
   return (
     <>
-      <section className={s.streamer}>
-        <div className={s.streamer_logo}>
-          <img src={user?.profile_image_url} alt="" />
-          <div className={s.streamer_name}>{user?.display_name}</div>
+      <div className="z-1 absolute flex h-[60vh] w-full pt-28">
+        {emotes?.map((emote) => (
+          <div
+            key={emote.id}
+            style={getRandomPosition()}
+            className="z-1 pt-24 absolute"
+          >
+            <img className="z-1" src={emote.images.url_2x} alt="" />
+          </div>
+        ))}
+      </div>
+      <section className="container z-100 flex flex-col items-center justify-center">
+        <div className="z-100 flex w-full flex-col items-center justify-center pt-28">
+          <div className="z-100"></div>
+          <img
+            className="h-60 w-60 rounded-full pb-1 border-[2px] border-border"
+            src={user?.profile_image_url}
+            alt=""
+          />
+          <h1 className="pb-4 text-6xl bg-black rounded-xl border-[2px] border-border">{user?.display_name}</h1>
+          <h2 className="text-xl">{user?.description}</h2>
         </div>
-        <div className={s.twitch_player}></div>
+        <div className=""></div>
         <DialogIframe type="stream" name={user?.display_name}>
-          <span className="z-100">
+          <div className="z-100 pt-6">
             <iframe
-              className="z[-1000] h-[76vh] w-[70vw] pr-2 "
+              className="z-10 h-[60vh] w-[50vw] pr-2 "
               src={`https://player.twitch.tv/?channel=${user?.display_name}&autoplay=1&muted=1&parent=localhost&parent=twitchers-next.vercel.app`}
             ></iframe>
-          </span>
+          </div>
         </DialogIframe>
       </section>
     </>

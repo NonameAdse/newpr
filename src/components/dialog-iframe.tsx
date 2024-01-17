@@ -16,29 +16,28 @@ const DialogIframe = ({ url, clsn, children, name, type, videoId }: Props) => {
       <DialogTrigger className="" asChild>
         {children}
       </DialogTrigger>
-      <DialogContent className="z-1000 flex h-[82vh] w-[92vw] items-center justify-center rounded-xl border-[3px] border-card bg-background">
+      <DialogContent className="z-1000 flex h-[82vh] w-[84vw] items-center justify-center rounded-xl border-[3px] border-card bg-background">
         <div className="flex">
           {type === "stream" ? (
             <>
               <iframe
-                className="h-[76vh] w-[70vw] pr-2  "
+                className="h-[74vh] w-[64vw] pr-2 "
                 src={`https://player.twitch.tv/?channel=${name}&autoplay=1&muted=1&parent=localhost&parent=twitchers-next.vercel.app`}
               ></iframe>
               <iframe
-                className="h-[76vh] w-[20vw] rounded-2xl pt-2 "
+                className="h-[74vh] w-[18vw] rounded-2xl "
                 src={`https://www.twitch.tv/embed/${name}/chat?parent=localhost&parent=twitchers-next.vercel.app&darkpopout`}
               ></iframe>
             </>
           ) : type === "offline" ? (
-            <iframe
-              className="h-[76vh] w-[90vw]"
-              src={`https://player.twitch.tv/?video=v${name}&parent=localhost&parent=twitchers-next.vercel.app&autoplay=false`}
-              allowFullScreen
-            ></iframe>
+              <iframe
+                className="h-[76vh] w-[78vw] aspect-video"
+                src={`https://player.twitch.tv/?video=v${name}&parent=localhost&parent=twitchers-next.vercel.app&autoplay=false`}
+              ></iframe>
           ) : (
             <iframe
-              className="h-[76vh] w-[90vw]"
-              src={`${url}&parent=localhost`}
+              className="h-[76vh] w-[78vw] aspect-video"
+              src={`${url}&parent=localhost&parent=twitchers-next.vercel.app`}
             ></iframe>
           )}
         </div>
