@@ -38,7 +38,7 @@ export function DialogInput({ children }: PropsWithChildren) {
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="h-auto max-w-lg rounded-xl border-[3px] border-card bg-black">
+      <DialogContent className="md:top-100 z-[1100] h-auto max-w-lg rounded-xl border-[3px] border-card bg-black sm:absolute sm:top-64">
         <DialogHeader className="">
           <DialogTitle className="flex items-center justify-center">
             Search streamer

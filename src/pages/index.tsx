@@ -33,18 +33,20 @@ export default function Home({ games, clip }: any) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="h-[2000px] overflow-x-hidden">
-        <section className="w-full overflow-x-hidden">
+        <section className="w-full">
           <div className="flex flex-col items-center justify-end bg-background pb-10 pt-24 md:py-12">
             <div className="flex flex-col items-center justify-center ">
-              <h1 className="pb-4 text-9xl">Discover Twitch Vods</h1>
-              <p className="pb-10 text-2xl">
+              <h1 className="pb-4 pt-12 md:pt-16 text-9xl md:text-4xl xl:text-6xl ">
+                Discover Twitch Vods
+              </h1>
+              <p className="pb-10 text-2xl lg:text-base md:text-sm md:pb-6 text-center">
                 Watch twitch past broadcasts streams Start by Typing twitch
                 username...
               </p>
             </div>
             <DialogInput>
-              <Button className="bg-button-foreground px-40 text-text text-white">
-                <MagnifyingGlassIcon />
+              <Button className="bg-button-foreground md:px-32 px-40 text-text lg:text-base md:text-sm text-xl text-white">
+                <MagnifyingGlassIcon className="w-6 h-6 pr-1" />
                 Search Steamer
               </Button>
             </DialogInput>
@@ -52,7 +54,7 @@ export default function Home({ games, clip }: any) {
         </section>
         <section className="relative  flex w-full flex-col items-center justify-center rounded-2xl ">
           <div>
-            <h1 className="text-7xl pb-3 text-white">Top streams Now</h1>
+            <h1 className="pb-3 text-7xl text-white md:text-4xl xl:text-6xl">Top streams Now</h1>
           </div>
           <EmblaCarousel slides={games}></EmblaCarousel>
         </section>
