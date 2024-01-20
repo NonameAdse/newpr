@@ -19,7 +19,7 @@ const CardVideo = ({ video, type }: Props) => {
       type={type}
       url={video?.embed_url}
     >
-      <div className="relative mb-1 h-full w-full cursor-pointer rounded-sm px-1">
+      <div className="relative mb-1 h-full w-full cursor-pointer rounded-sm px-1 sm:px-0">
         <span className="relative box-border block w-full opacity-100">
           <img
             className="relative h-full w-full rounded-xl align-middle opacity-95 brightness-75 duration-500 ease-in-out"
@@ -74,10 +74,10 @@ const CardVideo = ({ video, type }: Props) => {
               <div className="text-base font-bold text-white">
                 {video?.user_login}
               </div>
-              <div className="overflow-hidden whitespace-nowrap text-sm font-bold text-white md:text-xs">
+              <div className="overflow-hidden whitespace-nowrap text-xs font-bold text-white">
                 {video?.title}
               </div>
-              <div className="flex items-start text-sm text-white md:text-xs">
+              <div className="flex items-start text-xs text-white">
                 {online && <span className="pr-2">started:</span>}
                 {type === "stream"
                   ? formatCreatedAt(new Date(video?.started_at).getTime())

@@ -40,7 +40,7 @@ export function DialogInput({ children }: PropsWithChildren) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="md:top-100 z-[1100] h-auto max-w-lg rounded-xl border-[3px] border-card bg-black sm:absolute sm:top-64">
         <DialogHeader className="">
-          <DialogTitle className="flex items-center justify-center">
+          <DialogTitle className="flex items-center justify-center whitespace-nowrap">
             Search streamer
             {isFetching && <ReloadIcon className="ml-2 h-4 w-4 animate-spin" />}
           </DialogTitle>

@@ -28,7 +28,7 @@ export const Thumb: React.FC<PropType> = ({
       }`}
     >
       <button
-        className=" text-decoration-none m-0 block w-full cursor-pointer appearance-none rounded-2xl border-0 bg-transparent p-0 transition-opacity duration-200 focus:outline-none"
+        className="text-decoration-none m-0 block w-full cursor-pointer rounded-2xl border-0 bg-transparent p-0 transition-opacity duration-300 focus:outline-none"
         type="button"
       >
         <div className="absolute mr-1  flex w-full  cursor-pointer justify-end border-0  ">
@@ -53,7 +53,9 @@ export const Thumb: React.FC<PropType> = ({
             whileHover={{ scale: 1.1 }}
             className="mt-5 text-white focus:outline-none"
           >
-            <Badge className="text-base xl:text-sm text-white">Stream Online</Badge>
+            <Badge className="text-base text-white xl:text-sm">
+              Stream Online
+            </Badge>
           </motion.button>
         </motion.div>
 
@@ -70,7 +72,7 @@ export const Thumb: React.FC<PropType> = ({
             whileHover={{ scale: 1.1 }}
             className="mb-5 text-white focus:outline-none"
           >
-            <Badge className="text-base xl:text-sm text-white">Top Clips</Badge>
+            <Badge className="text-base text-white xl:text-sm">Top Clips</Badge>
           </motion.button>
         </motion.div>
       </div>

@@ -37,7 +37,7 @@ export const StreamerVideos = () => {
     refetchOnWindowFocus: false,
   });
   const ToggleType = async (type: "offline" | "stream" | "clips") => {
-    await setType(type);
+    setType(type);
     await refetch();
   };
 
