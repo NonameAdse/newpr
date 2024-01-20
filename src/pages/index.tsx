@@ -48,7 +48,7 @@ export default function Home({ games, clip }: any) {
               </p>
             </div>
             <DialogInput>
-              <Button className="bg-button-foreground px-40 text-xl text-text text-white lg:text-base md:px-32 md:text-sm">
+              <Button className="bg-button-foreground  px-40 text-xl text-text text-white lg:text-base md:px-32 md:text-sm sm:px-28">
                 <MagnifyingGlassIcon className="h-6 w-6 pr-1" />
                 Search Steamer
               </Button>

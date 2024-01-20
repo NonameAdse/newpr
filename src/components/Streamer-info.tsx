@@ -41,10 +41,10 @@ export const StreamerInfo = ({ user, emotes, clips }: Props) => {
         ))}
       </div>
       <section className="container z-100 flex flex-col items-center justify-center pb-10">
-        <div className="z-100 flex w-full flex-col items-center justify-center pt-28">
-          <div className="z-100"></div>
+        <div className="z-[500] flex w-full flex-col items-center justify-center pt-28">
+          <div className="z-[500]"></div>
           <img
-            className="h-60 w-60 rounded-full border-[2px] border-border pb-1"
+            className="h-60 w-60 z-[500] rounded-full border-[2px] border-border pb-1"
             src={user?.profile_image_url}
             alt=""
           />

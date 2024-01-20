@@ -37,7 +37,7 @@ export const StreamerVideos = () => {
     refetchOnWindowFocus: false,
   });
   const ToggleType = async (type: "offline" | "stream" | "clips") => {
-    setType(type);
+    await setType(type);
     await refetch();
   };
 
@@ -48,9 +48,10 @@ export const StreamerVideos = () => {
     }
   }, [inView]);
 
-  if (!data || data?.pages?.length === 0) {
-    return <div>У пользователя нет видео.</div>;
-  }
+  // if (!data || data?.pages?.length === 0) {
+  //   return <div>У пользователя нет видео.</div>;
+  // }
+  console.log("DATA", data);
 
   const fadeInUp = {
     hidden: { opacity: 0, y: 20 },
@@ -86,10 +87,10 @@ export const StreamerVideos = () => {
             ? Array.from({ length: 40 }, (_, index) => (
                 <React.Fragment key={`skeleton-${index}`}>
                   <motion.div
-                    initial={{ opacity: 0.9, scale: 1 }}
+                    initial={{ opacity: 0.7, scale: 1 }}
                     animate="visible"
-                    exit={{ opacity: 0.8, scale: 1 }}
-                    transition={{ duration: 0.2 }}
+                    exit={{ opacity: 0.7, scale: 1 }}
+                    transition={{ duration: 0.3 }}
                     className="relative mr-4 w-full overflow-hidden rounded-2xl"
                     style={{ paddingBottom: "52%" }}
                   >
@@ -103,23 +104,28 @@ export const StreamerVideos = () => {
                 <motion.div
                   ref={ref}
                   key={video.id}
-                  variants={fadeInUp}
-                  initial="hidden"
+                  initial={{ opacity: 0.9, scale: 1 }}
+                  exit={{ opacity: 0.5, scale: 0.9 }}
+                  transition={{ duration: 0.4 }}
                   animate="visible"
                 >
-                  <CardVideo type={type} video={video}></CardVideo>
+                  <CardVideo
+                    key={video.id}
+                    type={type}
+                    video={video}
+                  ></CardVideo>
                 </motion.div>
               ))}
 
           <AnimatePresence>
-            {isFetchingNextPage &&
+            {/* {isFetchingNextPage &&
               Array.from({ length: 40 }, (_, index) => (
                 <React.Fragment key={`skeleton-${index}`}>
                   <motion.div
-                    initial={{ opacity: 0.9, scale: 1 }}
+                    initial={{ opacity: 1, scale: 1 }}
                     animate="visible"
-                    exit={{ opacity: 0.8, scale: 1 }}
-                    transition={{ duration: 0.2 }}
+                    exit={{ opacity: 0.1, scale: 1 }}
+                    transition={{ duration: 0.4 }}
                     className="relative mr-4 w-full overflow-hidden rounded-2xl"
                     style={{ paddingBottom: "52%" }}
                   >
@@ -128,7 +134,7 @@ export const StreamerVideos = () => {
                     </div>
                   </motion.div>
                 </React.Fragment>
-              ))}
+              ))} */}
           </AnimatePresence>
         </div>
       </div>
