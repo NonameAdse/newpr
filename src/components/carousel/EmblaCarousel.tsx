@@ -55,9 +55,9 @@ const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
   return (
     <>
       <div className="relative rounded-xl border-[2px] border-border p-5 lg:pl-[100px] md:ml-[25vw] sm:ml-[460px]">
-        <div className="pb-4 ">
+        <div className="relative pb-4 ">
           <div className="overflow-hidden " ref={emblaThumbsRef}>
-            <div className="flex ">
+            <div className="flex">
               {slides?.map((game: any, index: number) => (
                 <Thumb
                   onClick={(index, type) => onThumbClick(index, type)}
@@ -65,8 +65,8 @@ const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
                   index={Number(game?.id)}
                   number={index}
                   imgSrc={game?.box_art_url
-                    .replace("{width}", "2000")
-                    .replace("{height}", "2000")}
+                    .replace("{width}", "320")
+                    .replace("{height}", "180")}
                   key={index}
                 />
               ))}

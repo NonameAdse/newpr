@@ -20,9 +20,9 @@ const CardVideo = ({ video, type }: Props) => {
       url={video?.embed_url}
     >
       <div className="relative  mb-1 h-full w-full cursor-pointer rounded-sm px-1">
-        <span className="relative box-border block overflow-hidden opacity-100">
+        <span className="relative box-border block w-full overflow-hidden opacity-100">
           <img
-            className="rounded-xl align-middle opacity-95 brightness-75 duration-500 ease-in-out"
+            className="h-full w-full rounded-xl align-middle opacity-95 brightness-75 duration-500 ease-in-out"
             src={
               online
                 ? video?.thumbnail_url
@@ -40,7 +40,7 @@ const CardVideo = ({ video, type }: Props) => {
             <div className="flex items-center px-1 text-white">
               <Badge className="my-[-10px] rounded-full bg-black/80 text-white">
                 <EyeOpenIcon className="mr-3 h-[12px] w-[12px]" />
-                <Badge className="mx-[-6px] rounded-full bg-white/20 px-2  py-[-2px] text-white ">
+                <Badge className="mx-[-6px] rounded-full bg-white/20 px-2 py-[-2px] text-white ">
                   {online ? video?.viewer_count : video?.view_count}
                 </Badge>
               </Badge>
