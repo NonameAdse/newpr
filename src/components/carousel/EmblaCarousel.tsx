@@ -54,10 +54,10 @@ const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
 
   return (
     <>
-      <div className="relative rounded-xl border-[2px] border-border p-5">
-        <div className="pb-4">
-          <div className="overflow-hidden" ref={emblaThumbsRef}>
-            <div className="flex flex-row">
+      <div className="relative rounded-xl border-[2px] border-border p-5 lg:pl-[100px] md:ml-[25vw] sm:ml-[460px]">
+        <div className="pb-4 ">
+          <div className="overflow-hidden " ref={emblaThumbsRef}>
+            <div className="flex ">
               {slides?.map((game: any, index: number) => (
                 <Thumb
                   onClick={(index, type) => onThumbClick(index, type)}
@@ -85,10 +85,10 @@ const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0.2, scale: 0.9 }}
                       transition={{ duration: 0.2 }}
-                      className="relative mr-4 w-full overflow-hidden rounded-2xl"
+                      className="relative mr-2 w-full rounded-2xl"
                       style={{ paddingBottom: "52%" }}
                     >
-                      <div className="absolute inset-0 px-3">
+                      <div className="absolute inset-0 px-2">
                         <Skeleton className="h-full w-full" />
                       </div>
                     </motion.div>

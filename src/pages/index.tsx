@@ -32,7 +32,7 @@ export default function Home({ games, clip }: any) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="h-[2000px] overflow-x-hidden">
+      <main className="h-[2000px] overflow-hidden">
         <section className="w-full">
           <div className="flex flex-col items-center justify-end bg-background pb-10 pt-24 md:py-12">
             <div className="flex flex-col items-center justify-center ">
@@ -52,7 +52,7 @@ export default function Home({ games, clip }: any) {
             </DialogInput>
           </div>
         </section>
-        <section className="relative  flex w-full flex-col items-center justify-center rounded-2xl ">
+        <section className="relative flex w-full flex-col items-center justify-center rounded-2xl ">
           <div>
             <h1 className="pb-3 text-7xl text-white md:text-4xl xl:text-6xl">Top streams Now</h1>
           </div>

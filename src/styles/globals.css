@@ -96,4 +96,7 @@
   .ImgCarusel {
     @apply h-[280px] w-full rounded-2xl 2xl:h-[240px] xl:h-[210px] lg:h-[170px] md:h-[160px];
   }
+  .iframeOC {
+    @apply mt-3 aspect-video h-[76vh] w-[78vw] xl:h-[68vh] xl:w-[86vw] lg:mt-1 lg:h-[57vh] md:h-[49vh] sm:h-[36vh] sm:w-[94vw];
+  }
 }

@@ -48,24 +48,23 @@ export const StreamerInfo = ({ user, emotes, clips }: Props) => {
             src={user?.profile_image_url}
             alt=""
           />
-          <h1 className="rounded-xl border-[2px] border-border bg-black px-2 pb-4 text-6xl">
+          <h1 className="rounded-xl border-[2px] border-border bg-black px-2 pb-4 text-6xl lg:text-4xl">
             {user?.display_name}
           </h1>
-          <h2 className="rounded-xl border-[2px] border-border bg-black px-2 text-xl">
+          <h2 className="rounded-xl border-[2px] border-border bg-black px-2 text-center text-xl lg:text-base">
             {user?.description}
           </h2>
         </div>
-        <div className=""></div>
-        <DialogIframe type="stream" name={user?.display_name}>
-          <div className="relative z-1000 pt-6 cursor-pointer">
-            <div className="relative cursor-pointer h-[60vh] w-[50vw]">
-              <iframe
-                className="relative z-[-100] h-[60vh] w-[50vw] pr-2 "
-                src={`https://player.twitch.tv/?channel=${user?.display_name}&autoplay=1&muted=1&parent=localhost&parent=twitchers-next.vercel.app`}
-              ></iframe>
-            </div>
-          </div>
-        </DialogIframe>
+        <div className="mt-5 flex items-center justify-center rounded-2xl border-[3px] border-border md:flex-col">
+          <iframe
+            className="relative h-[68vh] w-[70vw] rounded-2xl pr-2 lg:h-[58vh] lg:w-[75vw] md:h-[50vh] md:w-[96vw] md:pb-1 md:pr-0 sm:h-[30vh]"
+            src={`https://player.twitch.tv/?channel=${user?.display_name}&autoplay=1&muted=1&parent=localhost&parent=twitchers-next.vercel.app`}
+          ></iframe>
+          <iframe
+            className=" h-[68vh] w-[18vw] rounded-2xl lg:h-[58vh] lg:w-[21vw] md:h-[42vh] md:w-[96vw] "
+            src={`https://www.twitch.tv/embed/${user?.display_name}/chat?parent=localhost&parent=twitchers-next.vercel.app&darkpopout`}
+          ></iframe>
+        </div>
       </section>
     </>
   );

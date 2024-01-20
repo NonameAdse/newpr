@@ -19,7 +19,7 @@ const CardVideo = ({ video, type }: Props) => {
       type={type}
       url={video?.embed_url}
     >
-      <div className="relative mb-1 h-full w-full cursor-pointer rounded-sm px-1">
+      <div className="relative  mb-1 h-full w-full cursor-pointer rounded-sm px-1">
         <span className="relative box-border block overflow-hidden opacity-100">
           <img
             className="rounded-xl align-middle opacity-95 brightness-75 duration-500 ease-in-out"

@@ -59,13 +59,13 @@ export const StreamerVideos = () => {
 
   const videos = data?.pages?.flatMap((page) => page?.videos);
   return (
-    <section className="container pt-4 ">
-      <div className="rounded-xl  border-[2px] border-border">
-        <div className="flex items-center justify-evenly py-8">
+    <section className="container pt-2 ">
+      <div className="rounded-xl border-[2px] border-border">
+        <div className="flex items-center justify-evenly py-4">
           <Button
             onClick={() => ToggleType("offline")}
             variant="ghost"
-            className={`border-[2px] border-border px-32 py-6 text-white ${
+            className={`border-[2px] border-border  px-[12vw] py-[2vh] text-white ${
               type === "offline" ? "bg-primary" : ""
             }`}
           >
@@ -74,7 +74,7 @@ export const StreamerVideos = () => {
           <Button
             onClick={() => ToggleType("clips")}
             variant="ghost"
-            className={`border-[2px] border-border px-32 py-6 text-white ${
+            className={`border-[2px] border-border px-[12vw] py-[2vh] text-white ${
               type === "clips" ? "bg-primary" : ""
             }`}
           >
