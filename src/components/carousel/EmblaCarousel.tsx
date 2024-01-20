@@ -83,8 +83,8 @@ const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
                     <motion.div
                       initial={{ opacity: 0, scale: 0.1 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0.2, scale: 0.9 }}
-                      transition={{ duration: 0.2 }}
+                      exit={{ opacity: 0.2, scale: 1 }}
+                      transition={{ duration: 0.4 }}
                       className="relative mr-2 w-full rounded-2xl"
                       style={{ paddingBottom: "52%" }}
                     >

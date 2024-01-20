@@ -87,9 +87,6 @@
   .container {
     @apply px-[8vw] xl:px-[4vw] lg:px-[1vw];
   }
-  /* .embla__container {
-    @apply grid grid-cols-4 gap-4;
-  } */
   .gridCard {
     @apply grid grid-cols-6 gap-1 2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 lg:gap-2 md:gap-1 sm:grid-cols-2;
   }
