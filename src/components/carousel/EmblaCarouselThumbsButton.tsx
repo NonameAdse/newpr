@@ -19,10 +19,9 @@ export const Thumb: React.FC<PropType> = ({
   number,
   onClick,
 }) => {
-
   return (
     <div
-      className={`group relative z-999 mr-4 flex-[0_0_11%] rounded-2xl ${
+      className={`group relative z-999 mr-4 flex-[0_0_12%] rounded-2xl  ${
         selected
           ? "border-[2px] border-card opacity-100 "
           : "border-[2px] opacity-30 hover:opacity-60"
@@ -37,14 +36,10 @@ export const Thumb: React.FC<PropType> = ({
             <span className="text-lg text-white">{number + 1}</span>
           </Badge>
         </div>
-        <img
-          className=" h-[220px] rounded-2xl"
-          src={imgSrc}
-          alt="Your alt text"
-        />
+        <img className="ImgCarusel" src={imgSrc} alt="Your alt text" />
       </button>
 
-      <div className="absolute top-0 z-10 flex h-[220px] w-full flex-col rounded-2xl opacity-0 group-hover:opacity-100">
+      <div className="ImgCarusel absolute top-0 z-10 flex w-full flex-col rounded-2xl opacity-0 group-hover:opacity-100">
         <motion.div
           whileHover={{ scale: 1.05 }}
           onClick={() => onClick(index, "stream")}
@@ -58,7 +53,7 @@ export const Thumb: React.FC<PropType> = ({
             whileHover={{ scale: 1.1 }}
             className="mt-5 text-white focus:outline-none"
           >
-            <Badge className="text-base text-white">Stream Online</Badge>
+            <Badge className="text-base xl:text-sm text-white">Stream Online</Badge>
           </motion.button>
         </motion.div>
 
@@ -75,7 +70,7 @@ export const Thumb: React.FC<PropType> = ({
             whileHover={{ scale: 1.1 }}
             className="mb-5 text-white focus:outline-none"
           >
-            <Badge className="text-base text-white">Top Clips</Badge>
+            <Badge className="text-base xl:text-sm text-white">Top Clips</Badge>
           </motion.button>
         </motion.div>
       </div>

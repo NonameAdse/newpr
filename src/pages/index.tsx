@@ -32,7 +32,7 @@ export default function Home({ games, clip }: any) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="container h-[2000px]">
+      <main className="h-[2000px] overflow-x-hidden">
         <section className="w-full overflow-x-hidden">
           <div className="flex flex-col items-center justify-end bg-background pb-10 pt-24 md:py-12">
             <div className="flex flex-col items-center justify-center ">
@@ -50,9 +50,9 @@ export default function Home({ games, clip }: any) {
             </DialogInput>
           </div>
         </section>
-        <section className="relative flex w-full flex-col items-center justify-center rounded-2xl border-[2px]">
+        <section className="relative  flex w-full flex-col items-center justify-center rounded-2xl ">
           <div>
-            <h1 className="text-7xl text-white">Top streams Now</h1>
+            <h1 className="text-7xl pb-3 text-white">Top streams Now</h1>
           </div>
           <EmblaCarousel slides={games}></EmblaCarousel>
         </section>

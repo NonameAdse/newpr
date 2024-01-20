@@ -58,7 +58,6 @@ export const StreamerVideos = () => {
   };
 
   const videos = data?.pages?.flatMap((page) => page?.videos);
-  console.log("ClipsSSS", videos);
   return (
     <section className="container pt-4 ">
       <div className="rounded-xl  border-[2px] border-border">
@@ -82,7 +81,7 @@ export const StreamerVideos = () => {
             Clips
           </Button>
         </div>
-        <div className="grid grid-cols-5 gap-4 ">
+        <div className="gridCard">
           {isRefetching
             ? Array.from({ length: 40 }, (_, index) => (
                 <React.Fragment key={`skeleton-${index}`}>
@@ -114,7 +113,7 @@ export const StreamerVideos = () => {
 
           <AnimatePresence>
             {isFetchingNextPage &&
-              Array.from({ length: 36 }, (_, index) => (
+              Array.from({ length: 40 }, (_, index) => (
                 <React.Fragment key={`skeleton-${index}`}>
                   <motion.div
                     initial={{ opacity: 0.9, scale: 1 }}

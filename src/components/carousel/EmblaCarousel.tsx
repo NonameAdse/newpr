@@ -53,28 +53,29 @@ const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
   // console.log("SLIDES", slides);
 
   return (
-    <div className="relative rounded-xl p-5">
-      <div className="pb-4">
-        <div className="overflow-hidden" ref={emblaThumbsRef}>
-          <div className="flex flex-row">
-            {slides?.map((game: any, index: number) => (
-              <Thumb
-                onClick={(index, type) => onThumbClick(index, type)}
-                selected={Number(game?.id) === selectedIndex}
-                index={Number(game?.id)}
-                number={index}
-                imgSrc={game?.box_art_url
-                  .replace("{width}", "2000")
-                  .replace("{height}", "2000")}
-                key={index}
-              />
-            ))}
+    <>
+      <div className="relative rounded-xl border-[2px] border-border p-5">
+        <div className="pb-4">
+          <div className="overflow-hidden" ref={emblaThumbsRef}>
+            <div className="flex flex-row">
+              {slides?.map((game: any, index: number) => (
+                <Thumb
+                  onClick={(index, type) => onThumbClick(index, type)}
+                  selected={Number(game?.id) === selectedIndex}
+                  index={Number(game?.id)}
+                  number={index}
+                  imgSrc={game?.box_art_url
+                    .replace("{width}", "2000")
+                    .replace("{height}", "2000")}
+                  key={index}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>
-
-      <div className="z-999" ref={emblaMainRef}>
-        <div className="grid grid-cols-5 gap-3">
+      <div className="container z-999 pt-2" ref={emblaMainRef}>
+        <div className="gridCard">
           <AnimatePresence>
             {isLoading && !isRefetching
               ? Array.from({ length: 50 }, (_, index) => (
@@ -103,7 +104,7 @@ const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
           </AnimatePresence>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
