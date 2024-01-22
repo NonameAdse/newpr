@@ -1,8 +1,9 @@
-import { StreamerInfo } from '@/components/Streamer-info'
-import { StreamerVideos } from '@/components/Streamer-video'
+import { GetServerSidePropsContext } from 'next'
 import { getAccessToken, getEmotes, getUserById, getUserClips } from '@/shared/api/axios'
 import { Channel, Emotes, TwitchUser } from '@/shared/api/types'
-import { GetServerSidePropsContext } from 'next'
+
+import { StreamerInfo } from '@/components/Streamer-info'
+import { StreamerVideos } from '@/components/Streamer-video'
 
 interface Props {
   user?: TwitchUser

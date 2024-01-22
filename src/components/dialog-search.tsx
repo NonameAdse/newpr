@@ -1,12 +1,13 @@
-import { Input } from './ui/input'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
 import { PropsWithChildren, useEffect, useState } from 'react'
-import { useDebouncedValue } from '@mantine/hooks'
-import { searchChannels } from '@/shared/api/axios'
-import { useQuery } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
+import { searchChannels } from '@/shared/api/axios'
+import { useDebouncedValue } from '@mantine/hooks'
 import { DotFilledIcon, ReloadIcon } from '@radix-ui/react-icons'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useQuery } from '@tanstack/react-query'
+import { AnimatePresence, motion } from 'framer-motion'
+
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
+import { Input } from './ui/input'
 
 export function DialogInput({ children }: PropsWithChildren) {
   const navigate = useRouter()

@@ -1,9 +1,11 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import Layout from '@/components/layout'
-import type { AppProps } from 'next/app'
 import { ReactElement, ReactNode, useState } from 'react'
 import { NextPage } from 'next'
+import type { AppProps } from 'next/app'
 import { useRouter } from 'next/router'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+import Layout from '@/components/layout'
+
 import '@/styles/globals.css'
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {

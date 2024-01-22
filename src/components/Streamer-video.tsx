@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { useInfiniteQuery } from '@tanstack/react-query'
-import { getVideosByUserId } from '@/shared/api/axios'
 import { useRouter } from 'next/router'
-import CardVideo from './card-video'
+import { getVideosByUserId } from '@/shared/api/axios'
+import { useInfiniteQuery } from '@tanstack/react-query'
+import { AnimatePresence, motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Skeleton } from './ui/skeleton'
+
+import CardVideo from './card-video'
 import { Button } from './ui/button'
+import { Skeleton } from './ui/skeleton'
 
 export const StreamerVideos = () => {
   const router = useRouter()

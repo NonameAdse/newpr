@@ -1,8 +1,8 @@
+import { Channel } from 'diagnostics_channel'
 import React from 'react'
 import { useRouter } from 'next/router'
 import { Emotes, TwitchStream, TwitchUser } from '@/shared/api/types'
-import { Channel } from 'diagnostics_channel'
-import s from '@/styles/Streamer.module.scss'
+
 import DialogIframe from './dialog-iframe'
 
 interface Props {

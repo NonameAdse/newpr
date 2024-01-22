@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useCallback } from 'react'
-import useEmblaCarousel from 'embla-carousel-react'
-import { Thumb } from './EmblaCarouselThumbsButton'
+import React, { useCallback, useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import { getTopStreamsByGame } from '@/shared/api/axios'
 import { useQuery } from '@tanstack/react-query'
-import { useRouter } from 'next/router'
+import useEmblaCarousel from 'embla-carousel-react'
+import { AnimatePresence, motion } from 'framer-motion'
+
 import CardVideo from '../card-video'
 import { Skeleton } from '../ui/skeleton'
-import { motion, AnimatePresence } from 'framer-motion'
+import { Thumb } from './EmblaCarouselThumbsButton'
 
 type PropType = {
   slides: any

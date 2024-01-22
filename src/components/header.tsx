@@ -1,6 +1,7 @@
 import React from 'react'
-import { ModeToggle } from './ui/themeToggle'
 import Link from 'next/link'
+
+import { ModeToggle } from './ui/themeToggle'
 
 type Props = {}
 

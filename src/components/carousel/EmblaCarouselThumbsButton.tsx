@@ -1,7 +1,8 @@
 import React from 'react'
+import { motion } from 'framer-motion'
+
 import { Badge } from '../ui/badge'
 import { Button } from '../ui/button'
-import { motion } from 'framer-motion'
 
 type PropType = {
   selected: boolean

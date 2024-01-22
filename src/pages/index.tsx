@@ -1,12 +1,13 @@
-import Head from 'next/head'
-import { Inter } from 'next/font/google'
-import { useRouter } from 'next/navigation'
-import { DialogInput } from '@/components/dialog-search'
-import { Button } from '@/components/ui/button'
-import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
 import { GetServerSidePropsContext } from 'next'
+import { Inter } from 'next/font/google'
+import Head from 'next/head'
+import { useRouter } from 'next/navigation'
 import { getAccessToken, getGameClips, getTopGames } from '@/shared/api/axios'
+import { MagnifyingGlassIcon } from '@radix-ui/react-icons'
+
+import { Button } from '@/components/ui/button'
 import EmblaCarousel from '@/components/carousel/EmblaCarousel'
+import { DialogInput } from '@/components/dialog-search'
 
 const inter = Inter({ subsets: ['latin'] })
 export async function getServerSideProps(context: GetServerSidePropsContext) {
