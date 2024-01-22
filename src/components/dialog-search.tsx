@@ -1,40 +1,34 @@
-import { Input } from "./ui/input";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "./ui/dialog";
-import { PropsWithChildren, useEffect, useState } from "react";
-import { useDebouncedValue } from "@mantine/hooks";
-import { searchChannels } from "@/shared/api/axios";
-import { useQuery } from "@tanstack/react-query";
-import { useRouter } from "next/router";
-import { DotFilledIcon, ReloadIcon } from "@radix-ui/react-icons";
-import { motion, AnimatePresence } from "framer-motion";
+import { Input } from './ui/input'
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog'
+import { PropsWithChildren, useEffect, useState } from 'react'
+import { useDebouncedValue } from '@mantine/hooks'
+import { searchChannels } from '@/shared/api/axios'
+import { useQuery } from '@tanstack/react-query'
+import { useRouter } from 'next/router'
+import { DotFilledIcon, ReloadIcon } from '@radix-ui/react-icons'
+import { motion, AnimatePresence } from 'framer-motion'
 
 export function DialogInput({ children }: PropsWithChildren) {
-  const navigate = useRouter();
-  const [searchQuery, setSearchQuery] = useState<string>("");
-  const [debouncedSearchQuery] = useDebouncedValue(searchQuery, 450);
+  const navigate = useRouter()
+  const [searchQuery, setSearchQuery] = useState<string>('')
+  const [debouncedSearchQuery] = useDebouncedValue(searchQuery, 450)
 
   const {
     data: searchResults,
     refetch,
     isFetching,
   } = useQuery({
-    queryKey: ["searchResults", debouncedSearchQuery],
+    queryKey: ['searchResults', debouncedSearchQuery],
     queryFn: async () => searchChannels(debouncedSearchQuery),
     enabled: !!debouncedSearchQuery,
     refetchOnWindowFocus: false,
-  });
+  })
 
   useEffect(() => {
     if (debouncedSearchQuery) {
-      refetch();
+      refetch()
     }
-  }, [debouncedSearchQuery, refetch]);
+  }, [debouncedSearchQuery, refetch])
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -51,7 +45,7 @@ export function DialogInput({ children }: PropsWithChildren) {
             type="text"
             placeholder="Search"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={e => setSearchQuery(e.target.value)}
           ></Input>
         </div>
         <motion.div
@@ -60,7 +54,7 @@ export function DialogInput({ children }: PropsWithChildren) {
           exit={{ opacity: 0, y: -20 }}
           className="overflow-hidden"
         >
-          {searchResults?.map((channel) => (
+          {searchResults?.map(channel => (
             <div key={channel.display_name}>
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
@@ -71,11 +65,7 @@ export function DialogInput({ children }: PropsWithChildren) {
                 onClick={() => navigate.push(`/streamer/${channel.id}`)}
               >
                 <div className="flex items-center justify-center">
-                  <img
-                    className="w-10 rounded-full"
-                    src={channel.thumbnail_url}
-                    alt=""
-                  />
+                  <img className="w-10 rounded-full" src={channel.thumbnail_url} alt="" />
 
                   <span className="top[-20px] relative pl-5 text-white">
                     {channel.display_name}
@@ -90,5 +80,5 @@ export function DialogInput({ children }: PropsWithChildren) {
         </motion.div>
       </DialogContent>
     </Dialog>
-  );
+  )
 }

@@ -1,23 +1,22 @@
-import React from "react";
-import { ModeToggle } from "./ui/themeToggle";
-import Link from "next/link";
+import React from 'react'
+import { ModeToggle } from './ui/themeToggle'
+import Link from 'next/link'
 
-type Props = {};
+type Props = {}
 
 const Header = () => {
   return (
-    <header className="fixed z-[1100] justify-between flex h-24 w-full border-[2px] border-b-card bg-background">
+    <header className="fixed z-[1100] flex h-24 w-full justify-between border-[2px] border-b-card bg-background">
       {/* <div>lol</div> */}
 
-      <Link className="pl-24 flex items-center" href="/">
+      <Link className="flex items-center pl-24" href="/">
         HOME
       </Link>
-      <div className="pr-24 flex  items-center">
-
-      <ModeToggle  />
+      <div className="flex items-center  pr-24">
+        <ModeToggle />
       </div>
     </header>
-  );
-};
+  )
+}
 
-export default Header;
+export default Header
