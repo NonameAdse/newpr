@@ -15,6 +15,8 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const id = context?.params?.id as string
   const accessToken = await getAccessToken()
 
+
+
   const user = await getUserById(id, accessToken)
   // const userFollowers = await getUserFollowers(id, accessToken);
   const emotes = await getEmotes(id, accessToken)
