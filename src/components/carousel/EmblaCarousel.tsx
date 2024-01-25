@@ -24,6 +24,7 @@ const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
     dragFree: true,
   })
   const [idGame, setIdGame] = useState<string>(slides[0]?.id)
+
   const [type, setType] = useState<'offline' | 'stream' | 'clips'>('stream')
 
   const {
@@ -42,7 +43,6 @@ const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
       setSelectedIndex(index)
       setIdGame(index.toString())
       setType(type)
-
       refetch()
     } catch (error) {
       console.error(error)
