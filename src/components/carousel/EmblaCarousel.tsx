@@ -16,6 +16,7 @@ type PropType = {
 
 const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
   const router = useRouter()
+
   const id = router?.query?.id as string
   const [selectedIndex, setSelectedIndex] = useState(Number(slides[0]?.id))
   const [emblaMainRef, emblaMainApi] = useEmblaCarousel()

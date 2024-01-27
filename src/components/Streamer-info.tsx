@@ -38,7 +38,7 @@ export const StreamerInfo = ({ user, emotes, clips }: Props) => {
       </div>
       <section className="container z-100 flex flex-col items-center justify-center pb-10">
         <div className="z-[500] flex w-full flex-col items-center justify-center pt-28">
-          <div className="z-[500]"></div>
+          <div className="z-[500]" />
           <img
             className="z-[500] h-60 w-60 rounded-full border-[2px] border-border pb-1"
             src={user?.profile_image_url}
@@ -55,7 +55,7 @@ export const StreamerInfo = ({ user, emotes, clips }: Props) => {
           <iframe
             className="relative h-[68vh] w-[70vw] rounded-2xl pr-2 lg:h-[58vh] lg:w-[75vw] md:h-[50vh] md:w-[96vw] md:pb-1 md:pr-0 sm:h-[30vh]"
             src={`https://player.twitch.tv/?channel=${user?.display_name}&autoplay=1&muted=1&parent=localhost&parent=twitchers-next.vercel.app`}
-          ></iframe>
+          />
           <iframe
             className=" h-[68vh] w-[18vw] rounded-2xl lg:h-[58vh] lg:w-[21vw] md:h-[42vh] md:w-[96vw] "
             src={`https://www.twitch.tv/embed/${user?.display_name}/chat?parent=localhost&parent=twitchers-next.vercel.app&darkpopout`}
