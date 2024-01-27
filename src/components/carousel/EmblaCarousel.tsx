@@ -1,32 +1,32 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import { getTopStreamsByGame } from '@/shared/api/axios'
-import { useQuery } from '@tanstack/react-query'
-import useEmblaCarousel from 'embla-carousel-react'
-import { AnimatePresence, motion } from 'framer-motion'
+import React, { useCallback, useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { getTopStreamsByGame } from "@/shared/api/axios";
+import { useQuery } from "@tanstack/react-query";
+import useEmblaCarousel from "embla-carousel-react";
+import { AnimatePresence, motion } from "framer-motion";
 
-import CardVideo from '../card-video'
-import { Skeleton } from '../ui/skeleton'
-import { Thumb } from './EmblaCarouselThumbsButton'
+import CardVideo from "../card-video";
+import { Skeleton } from "../ui/skeleton";
+import { Thumb } from "./EmblaCarouselThumbsButton";
 
 type PropType = {
-  slides: any
+  slides: any;
   // options?: EmblaOptionsType;
-}
+};
 
 const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
-  const router = useRouter()
+  const router = useRouter();
 
-  const id = router?.query?.id as string
-  const [selectedIndex, setSelectedIndex] = useState(Number(slides[0]?.id))
-  const [emblaMainRef, emblaMainApi] = useEmblaCarousel()
+  const id = router?.query?.id as string;
+  const [selectedIndex, setSelectedIndex] = useState(Number(slides[0]?.id));
+  const [emblaMainRef, emblaMainApi] = useEmblaCarousel();
   const [emblaThumbsRef, emblaThumbsApi] = useEmblaCarousel({
-    containScroll: 'keepSnaps',
+    containScroll: "keepSnaps",
     dragFree: true,
-  })
-  const [idGame, setIdGame] = useState<string>(slides[0]?.id)
+  });
+  const [idGame, setIdGame] = useState<string>(slides[0]?.id);
 
-  const [type, setType] = useState<'offline' | 'stream' | 'clips'>('stream')
+  const [type, setType] = useState<"offline" | "stream" | "clips">("stream");
 
   const {
     data: game,
@@ -37,21 +37,21 @@ const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
     queryKey: [`getPopStreams${selectedIndex}${idGame}${type}`],
     queryFn: async () => getTopStreamsByGame(idGame, type),
     refetchOnWindowFocus: false,
-  })
+  });
 
-  const onThumbClick = (index: number, type: 'clips' | 'stream') => {
+  const onThumbClick = (index: number, type: "clips" | "stream") => {
     try {
-      setSelectedIndex(index)
-      setIdGame(index.toString())
-      setType(type)
-      refetch()
+      setSelectedIndex(index);
+      setIdGame(index.toString());
+      setType(type);
+      refetch();
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
     // if (!emblaMainApi || !emblaThumbsApi) return;
-  }
+  };
 
-  console.log('GAME', game)
+  console.log("GAME", game);
   // console.log("SLIDES", slides);
 
   return (
@@ -66,7 +66,9 @@ const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
                   selected={Number(game?.id) === selectedIndex}
                   index={Number(game?.id)}
                   number={index}
-                  imgSrc={game?.box_art_url.replace('{width}', '320').replace('{height}', '180')}
+                  imgSrc={game?.box_art_url
+                    .replace("{width}", "320")
+                    .replace("{height}", "180")}
                   key={index}
                 />
               ))}
@@ -86,7 +88,7 @@ const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
                       exit={{ opacity: 0.2, scale: 1 }}
                       transition={{ duration: 0.4 }}
                       className="relative mr-2 w-full rounded-2xl"
-                      style={{ paddingBottom: '52%' }}
+                      style={{ paddingBottom: "52%" }}
                     >
                       <div className="absolute inset-0 px-2">
                         <Skeleton className="h-full w-full" />
@@ -95,13 +97,17 @@ const EmblaCarousel: React.FC<PropType> = ({ slides }) => {
                   </React.Fragment>
                 ))
               : game?.map((game: any) => (
-                  <CardVideo video={game} type={type} key={game?.id}></CardVideo>
+                  <CardVideo
+                    video={game}
+                    type={type}
+                    key={game?.id}
+                  ></CardVideo>
                 ))}
           </AnimatePresence>
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default EmblaCarousel
+export default EmblaCarousel;

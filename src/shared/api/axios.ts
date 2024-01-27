@@ -15,43 +15,8 @@ import {
   TwitchVideoResponse,
 } from "./types";
 
-// const clientId = process.env.NEXT_PUBLIC_CLIENT_ID;
-// const clientSecret = process.env.NEXT_PUBLIC_CLIENT_SECRET;
-
 let accessToken: string | null = null;
 let tokenExpirationTime: number | null = null;
-
-// async function getAccessToken() {
-//   try {
-//     const cachedToken = await redis.get("token");
-
-//     if (cachedToken) {
-//       console.log("Токен найден в Redis:", cachedToken);
-//       return cachedToken;
-//     }
-
-//     const { data } = await axios.post(
-//       "https://id.twitch.tv/oauth2/token",
-//       null,
-//       {
-//         params: {
-//           client_id: process.env.NEXT_PUBLIC_CLIENT_ID,
-//           client_secret: process.env.NEXT_PUBLIC_CLIENT_SECRET,
-//           grant_type: "client_credentials",
-//         },
-//       },
-//     );
-
-//     // Сохранить новый токен в Redis
-//     await redis.set("token", data.access_token);
-//     console.log("Новый токен успешно установлен в Redis");
-
-//     return data.access_token;
-//   } catch (error) {
-//     console.error("Произошла ошибка:", error);
-//     throw error; // Если нужно, перебросьте ошибку выше
-//   }
-// }
 
 export async function getAccessToken(): Promise<string> {
   if (accessToken && tokenExpirationTime && Date.now() < tokenExpirationTime) {
