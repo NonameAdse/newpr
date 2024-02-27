@@ -9,9 +9,21 @@ import { UserController } from './user/user.controller';
 import { UserModule } from './user/user.module';
 import { UserService } from './user/user.service';
 import { WakeUpModule } from './wakeup/wakeup.module';
+import { RedisModule } from '@nestjs-modules/ioredis';
 
 @Module({
-  imports: [DbModule, MangaModule, UserModule, WakeUpModule],
+  imports: [
+    RedisModule.forRootAsync({
+      useFactory: () => ({
+        type: 'single',
+        url: 'redis://redis:6379',
+      }),
+    }),
+    DbModule,
+    MangaModule,
+    UserModule,
+    WakeUpModule,
+  ],
   controllers: [AppController, MangaController, UserController],
   providers: [AppService, MangaService, UserService],
 })

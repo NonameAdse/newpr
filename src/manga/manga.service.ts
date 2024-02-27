@@ -2,25 +2,45 @@ import { Injectable } from '@nestjs/common';
 import { DbService } from 'src/db/db.service';
 import { MangaDto } from './dto';
 import { UserService } from 'src/user/user.service';
+import { InjectRedis } from '@nestjs-modules/ioredis';
+import { Redis } from 'ioredis';
 
 @Injectable()
 export class MangaService {
   constructor(
+    @InjectRedis() private readonly redis: Redis,
     private db: DbService,
     private user: UserService,
   ) {}
 
-  getAllManga() {
-    return this.db.anime.findMany({ include: { chapters: true } });
+  async getAllManga() {
+    const cache = await this.redis.get('manga');
+    console.log('CECHEMANGA', cache);
+    if (cache) {
+      return JSON.parse(cache);
+    }
+    const manga = await this.db.anime.findMany({ include: { chapters: true } });
+    await this.redis.set('manga', JSON.stringify(manga));
+    return manga;
   }
-  getMangaByName(name: string) {
-    return this.db.anime.findFirst({
+  async getMangaByName(name: string) {
+    const cacheKey = `manga:${name}`;
+    const cache = await this.redis.get(cacheKey);
+    if (cache) {
+      return JSON.parse(cache);
+    }
+    const manga = await this.db.anime.findFirst({
       where: {
         name: { contains: name, mode: 'insensitive' },
       },
       include: { chapters: true },
     });
+    if (manga) {
+      await this.redis.set(cacheKey, JSON.stringify(manga));
+    }
+    return manga;
   }
+
   getMangaChapter(name: string, chapter: string) {
     const chap = Number(chapter);
     console.log(chap);
@@ -82,11 +102,18 @@ export class MangaService {
     });
   }
 
-  getMankaPopular() {
-    return this.db.anime.findMany({
+  async getMankaPopular() {
+    const cacheKey = 'popularManga';
+    const cache = await this.redis.get(cacheKey);
+    if (cache) {
+      return JSON.parse(cache);
+    }
+    const popularManga = await this.db.anime.findMany({
       take: 10,
       orderBy: { popularity: { sort: 'desc' as const } },
     });
+    await this.redis.set(cacheKey, JSON.stringify(popularManga));
+    return popularManga;
   }
 
   async getUserFavorite(email: string, name: string) {

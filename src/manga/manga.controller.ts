@@ -9,6 +9,8 @@ import {
 import { MangaDto } from './dto';
 import { ApiCreatedResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { MangaService } from './manga.service';
+import { Redis } from 'ioredis';
+import { InjectRedis } from '@nestjs-modules/ioredis';
 
 @Controller('manga')
 @ApiTags('manga')
@@ -17,13 +19,13 @@ export class MangaController {
 
   @Get('get-all')
   @ApiOkResponse({ type: [MangaDto] })
-  getAllManga() {
+  async getAllManga() {
     return this.animeService.getAllManga();
   }
 
   @Get('get-one')
   @ApiOkResponse({ type: MangaDto })
-  getMangaByName(@Query('name') name: string = '') {
+  async getMangaByName(@Query('name') name: string = '') {
     return this.animeService.getMangaByName(name);
   }
 
@@ -38,7 +40,7 @@ export class MangaController {
 
   @Get('get-popular')
   @ApiOkResponse({ type: [MangaDto] })
-  getMankaPopular() {
+  async getMankaPopular() {
     return this.animeService.getMankaPopular();
   }
 

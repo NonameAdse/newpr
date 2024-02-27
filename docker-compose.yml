@@ -1,0 +1,44 @@
+version: '4.27.2'
+
+services:
+  nestjs-manka:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nestjs-manka
+    restart: unless-stopped
+    ports:
+      - '4000:4000'
+    volumes:
+      - .:/app
+    environment:
+      PORT: 4000
+      DATABASE_URL: ${DATABASE_URL}
+    working_dir: /app
+    links:
+      - redis
+    env_file:
+      - .env
+    networks:
+      - webnet
+    depends_on:
+      - redis
+
+  redis:
+    container_name: redis
+    image: redis
+    restart: unless-stopped
+    ports:
+      - 6379:6379
+    volumes:
+      - redis:/data
+    networks:
+      - webnet
+    # environment:
+    #   - REDIS_PORT=6379
+
+volumes:
+  redis:
+
+networks:
+  webnet:
