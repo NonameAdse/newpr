@@ -13,7 +13,6 @@ export class UserService {
       },
     });
   }
-
   getUserFavorite(email: string) {
     return this.db.user.findFirst({
       where: { email: email },
