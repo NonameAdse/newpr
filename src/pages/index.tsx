@@ -22,6 +22,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 export default function Home({ games, clip }: any) {
   const navigate = useRouter();
 
+  console.log("TEST")
   console.log("CLIP", clip);
 
   return (
