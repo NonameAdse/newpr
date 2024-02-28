@@ -118,7 +118,6 @@ export class MangaService {
 
   async getUserFavorite(email: string, name: string) {
     const user = await this.user.getUserFavorite(email);
-
     if (!user?.favorite || user?.favorite.length === 0) {
       return null;
     }
@@ -128,7 +127,6 @@ export class MangaService {
     });
 
     const favoriteNames = favoriteList.map((anime) => anime.name);
-
     return favoriteNames.includes(name);
   }
 
